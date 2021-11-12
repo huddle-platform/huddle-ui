@@ -1,6 +1,7 @@
 import './App.css';
-
+import { useGetMeQuery } from './schemas';
 function App() {
+  //const res=useGetMeQuery();
   return (
     <div className="App">
       <h1>Huddle</h1>

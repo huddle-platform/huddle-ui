@@ -1,5 +1,6 @@
 overwrite: true
 schema: graph/schema/*
+documents: operations/*
 generates:
   src/schemas.ts:
     plugins:
