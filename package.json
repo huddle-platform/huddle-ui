@@ -24,7 +24,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "generate-gql": "graphql-codegen --config codegen.yml",
-    "preinstall": "./update-schema.sh"
+    "prestart": "./update-schema.sh"
   },
   "eslintConfig": {
     "extends": [
