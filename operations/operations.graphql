@@ -4,3 +4,10 @@ query getMe{
         name
     }
 }
+
+query getMessages{
+    messages{
+        id
+        message
+    }
+}
