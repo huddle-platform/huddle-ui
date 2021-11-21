@@ -1,0 +1,8 @@
+div.project-detail {
+    float: right;
+    height: 100%;
+    overflow-y: auto;
+    width: 65%;
+    vertical-align: middle;
+    box-sizing: border-box;
+}

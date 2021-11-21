@@ -1,0 +1,14 @@
+div.project-list {
+    padding-left: 5%;
+    padding-right: 2%;
+    border-right: 1px solid #E5E5E5;
+    width: 35%;
+    float: left;
+    overflow-y: auto;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+::-webkit-scrollbar-track {
+    background: #FFFFFFFF;
+}

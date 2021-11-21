@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  overflow: hidden;
 }
 
 .App-logo {
@@ -39,4 +40,10 @@
 
 button {
   font-size: calc(10px + 2vmin);
+}
+
+div.home-content {
+
+  margin-top: 100px;
+  height: 100%;
 }

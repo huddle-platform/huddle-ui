@@ -4,6 +4,8 @@ h1.project-list-entry {
     font-weight: 500;
     font-size: 30px;
     line-height: 37px;
+    margin-bottom: 17px;
+    margin-top: 0px;
 
     color: #000000;
 }
@@ -14,6 +16,7 @@ body.project-list-entry {
     font-weight: normal;
     font-size: 14px;
     line-height: 17px;
+    margin-bottom: 16px;
 
     color: #7A7A7A;
 }
@@ -24,6 +27,9 @@ h2.project-list-entry {
     font-weight: 500;
     font-size: 16px;
     line-height: 20px;
+    margin-bottom: 16px;
+    margin-top: 0px;
+    display: inline-block;
 
     color: #7A7A7A;
 }
@@ -34,13 +40,38 @@ h3.project-list-entry {
     font-weight: 500;
     font-size: 11px;
     line-height: 13px;
+    display: inline-block;
+    margin-bottom: 32px;
+    margin-top: 0px;
 
     color: #000000;
 }
 
 div.project-list-entry {
     text-align: left;
-    width: 380px;
     margin-left: 3px;
     margin-bottom: 33px;
+}
+
+.project-list-entry-time {
+    vertical-align: middle;
+    height: 13px !important;
+    width: 13px !important;
+    margin-right: 9px;
+}
+
+.project-list-entry-location {
+    vertical-align: middle;
+    height: 18px !important;
+    width: 18px !important;
+    margin-right: 13px;
+    color: #7A7A7A;
+}
+
+hr.project-list-entry {
+    margin: 0px 0px 0px 0px;
+    height: 1px;
+    border: 0px;
+    color: #E5E5E5;
+    background-color: #E5E5E5;
 }
