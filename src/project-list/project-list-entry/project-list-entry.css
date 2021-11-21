@@ -1,0 +1,46 @@
+h1.project-list-entry {
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 37px;
+
+    color: #000000;
+}
+
+body.project-list-entry {
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+
+    color: #7A7A7A;
+}
+
+h2.project-list-entry {
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+
+    color: #7A7A7A;
+}
+
+h3.project-list-entry {
+    font-family:Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 13px;
+
+    color: #000000;
+}
+
+div.project-list-entry {
+    text-align: left;
+    width: 380px;
+    margin-left: 3px;
+    margin-bottom: 33px;
+}
