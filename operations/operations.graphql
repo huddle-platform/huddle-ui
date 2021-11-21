@@ -1,13 +1,19 @@
-query getMe{
-    me{
-        id
-        name
-    }
+query getMe {
+  me {
+    id
+    username
+  }
 }
 
-query getMessages{
-    messages{
-        id
-        message
+query getChats{
+  chats {
+    id
+    with {
+      username
     }
+    messages {
+      author
+      content
+    }
+  }
 }

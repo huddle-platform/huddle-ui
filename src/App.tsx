@@ -1,13 +1,13 @@
 import './App.css';
-import { useGetMessagesQuery } from './schemas';
+import { useGetChatsQuery } from './schemas';
 function App() {
-  const { data, loading } = useGetMessagesQuery();
+  const { data, loading } = useGetChatsQuery();
   if (loading) return <div>Loading...</div>
   return (
     <div className="App">
       <h1>Huddle</h1>
       This is our great app called Huddle. Here we have an example gql query result:
-      {data?.messages.map(message => (<p>ID:{message.id}, Message:{message.message}</p>))}
+      {data?.chats.map(chat => (<p>ID:{chat.id}, with:{chat.with.username}</p>))}
     </div>
   );
 }
