@@ -5,6 +5,10 @@ import react from '@vitejs/plugin-react'
 export default defineConfig(({ command, mode }) => {
   return {
   plugins: [react()],
-  base:"/ui"
+  base:"/ui",
+  define:{
+    "__GQL_API_URL__":JSON.stringify("https://huddle.ridilla.eu/api/query"),
+    "AUTH_URL":JSON.stringify(mode=="dev"?"127.0.0.1:4433":"huddle.ridilla.eu/auth")
+  }
   }
 })
