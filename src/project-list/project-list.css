@@ -5,8 +5,8 @@ div.project-list {
     width: 35%;
     float: left;
     overflow-y: auto;
+    height: 80vh;
     box-sizing: border-box;
-    height: 100%;
 }
 
 ::-webkit-scrollbar-track {
