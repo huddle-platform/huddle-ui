@@ -8,6 +8,8 @@ function ShowList() {
             <ShowEntry></ShowEntry>
             <ShowEntry></ShowEntry>
             <ShowEntry></ShowEntry>
+            <ShowEntry></ShowEntry>
+            <ShowEntry></ShowEntry>
         </div>
     );
 }

@@ -5,10 +5,20 @@ div.project-list {
     width: 35%;
     float: left;
     overflow-y: auto;
-    height: 80vh;
+    height: 90vh;
     box-sizing: border-box;
+    scrollbar-width: thin;
 }
 
-::-webkit-scrollbar-track {
-    background: #FFFFFFFF;
+*::-webkit-scrollbar {
+    width: 5px;
+}
+
+*::-webkit-scrollbar-track {
+    background: white;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: lightgray;
+    border-radius: 30px;
 }

@@ -1,6 +1,5 @@
 .App {
   text-align: center;
-  overflow: hidden;
 }
 
 .App-logo {
@@ -14,8 +13,8 @@
   }
 }
 
-html {
-  overflow-y: hidden;
+.App::-webkit-scrollbar {
+  display: none;
 }
 
 .App-header {

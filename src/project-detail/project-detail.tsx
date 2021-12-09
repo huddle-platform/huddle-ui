@@ -22,7 +22,12 @@ function ShowDetail() {
             <h1>Huddle</h1>
             <h1>Huddle</h1>
             <h1>Huddle</h1>
-            
+            <h1>Huddle</h1>
+            <h1>Huddle</h1>
+            <h1>Huddle</h1>
+            <h1>Huddle</h1>
+            <h1>Huddle</h1>
+            <h1>Huddle</h1>
         </div>
     );
 }
