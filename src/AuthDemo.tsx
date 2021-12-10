@@ -46,6 +46,16 @@ export const AuthDemo: React.FC = () => {
                 })
                 console.log(registrationResponse.data);
             }}>login</button>
+            <button onClick={async () => {
+                console.log('login');
+                const resp = await api.createSelfServiceLogoutFlowUrlForBrowsers()
+                console.log(resp.data);
+                if (!resp) return
+                const  logoutTken=resp.data.logout_token
+
+                const registrationResponse = await api.submitSelfServiceLogoutFlow(logoutTken)
+                console.log(registrationResponse.data);
+            }}>logout</button>
         </div>
     )
 }
