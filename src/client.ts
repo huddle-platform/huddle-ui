@@ -1,22 +1,25 @@
 import { HttpLink, ApolloClient, InMemoryCache, ApolloLink, Observable } from "@apollo/client";
+import PushStream from "zen-push"
 import { AuthenticationRequest } from "./authentication/authenticationObserbale";
 
 const endpointLink = new HttpLink({
-    //uri: 'https://huddle.ridilla.eu/api/query',
-    uri: 'http://localhost:8080/api/query',
+    uri: 'https://huddle.ridilla.eu/api/query',
+    //uri: 'http://localhost:8080/api/query',
     credentials: "include"
 });
-const subscribers: ZenObservable.SubscriptionObserver<AuthenticationRequest>[] = []
-export const authenticationObservable = new Observable<AuthenticationRequest>((s) => { subscribers.push(s) })
+export const authenticationStream = new PushStream<AuthenticationRequest>();
 const LoginLink = new ApolloLink((operation, forward) => {
     const observable = endpointLink.request(operation);
+    let waitingForLogin = false
     return new Observable((observer) => {
         const subs = observable!.subscribe({
             next: (data) => {
                 if (data.errors?.[0]?.message.includes("authenticate")) {
-                    subscribers.forEach(s => s.next({
+                    waitingForLogin = true
+                    authenticationStream.next({
                         onFailed: () => {
                             observer.next(data)
+                            waitingForLogin = false
                         },
                         onFinished: () => {
                             // retry fetching data
@@ -27,7 +30,7 @@ const LoginLink = new ApolloLink((operation, forward) => {
                                 error: (err) => observer.error(err)
                             })
                         }
-                    }))
+                    })
                 } else {
                     // forward with error
                     observer.next(data);
@@ -38,7 +41,9 @@ const LoginLink = new ApolloLink((operation, forward) => {
             }
             ,
             complete: () => {
-                observer.complete();
+                if (!waitingForLogin) {
+                    observer.complete();
+                }
             }
         });
     });
