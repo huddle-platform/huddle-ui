@@ -7,7 +7,7 @@ import { useGetMeQuery } from '../schemas';
 import Button from '../shared/Button';
 import Input from '../shared/Input';
 const config = new Configuration({
-    //basePath: 'http://localhost:8090/.ory/kratos',
+    //basePath: 'http://localhost:8090',
     basePath: 'https://huddle.ridilla.eu/.ory/kratos',
     baseOptions: {
         withCredentials: true
@@ -48,42 +48,61 @@ export const AuthenticationManagerPopup: React.FC<{ a: Observable<Authentication
                 <Input onChange={setPassword} description='Password' autoComplete='current-password' type='password' />
                 <br />
                 <Button filled onClick={async () => {
-                    console.log('registering user');
-                    const resp = await api.initializeSelfServiceRegistrationFlowForBrowsers()
-                    console.log(resp.data);
-                    if (!resp) return
-                    const registrationFlowId = resp.data.id;
-                    const csrf_token = (resp.data.ui.nodes[0].attributes as { value: string }).value;
+                    try {
+                        console.log('registering user');
+                        const resp = await api.initializeSelfServiceRegistrationFlowForBrowsers()
+                        console.log(resp.data);
+                        if (!resp) return
+                        const registrationFlowId = resp.data.id;
+                        const csrf_token = (resp.data.ui.nodes[0].attributes as { value: string }).value;
 
-                    const registrationResponse = await api.submitSelfServiceRegistrationFlow(registrationFlowId, {
-                        method: "password",
-                        password: password,
-                        traits: {
-                            email: email
-                        },
-                        csrf_token: csrf_token
-                    })
-                    console.log(registrationResponse.data);
+                        const registrationResponse = await api.submitSelfServiceRegistrationFlow(registrationFlowId, {
+                            method: "password",
+                            password: password,
+                            traits: {
+                                email: email
+                            },
+                            csrf_token: csrf_token
+                        })
+                        console.log(registrationResponse.data);
+                        api.initializeSelfServiceVerificationFlowForBrowsers().then(resp => {
+                            console.log(resp.data);
+                            const csrf_token = (resp.data.ui.nodes[0].attributes as { value: string }).value;
+                            api.submitSelfServiceVerificationFlow(resp.data.id, undefined, {
+                                method: "link",
+                                email: email,
+                                csrf_token
+                            }).then(resp => {
+                                console.log(resp.data);
+                            })
+                        })
+                    } catch (e) {
+                        alert(e)
+                    }
                 }}>register</Button>
 
                 <br />
                 <Button filled onClick={async () => {
-                    console.log('login');
-                    const resp = await api.initializeSelfServiceLoginFlowForBrowsers()
-                    console.log(resp.data);
-                    if (!resp) return
-                    const loginFlowId = resp.data.id;
-                    const csrf_token = (resp.data.ui.nodes[0].attributes as { value: string }).value;
+                    try {
+                        console.log('login');
+                        const resp = await api.initializeSelfServiceLoginFlowForBrowsers()
+                        console.log(resp.data);
+                        if (!resp) return
+                        const loginFlowId = resp.data.id;
+                        const csrf_token = (resp.data.ui.nodes[0].attributes as { value: string }).value;
 
-                    const registrationResponse = await api.submitSelfServiceLoginFlow(loginFlowId, undefined, {
-                        method: "password",
-                        password: password,
-                        password_identifier: email,
-                        csrf_token: csrf_token
-                    })
-                    console.log(registrationResponse.data);
-                    authRequest.onFinished()
-                    setAuthRequest(null)
+                        const registrationResponse = await api.submitSelfServiceLoginFlow(loginFlowId, undefined, {
+                            method: "password",
+                            password: password,
+                            password_identifier: email,
+                            csrf_token: csrf_token
+                        })
+                        console.log(registrationResponse.data);
+                        authRequest.onFinished()
+                        setAuthRequest(null)
+                    } catch (error) {
+                        alert(error)
+                    }
                 }}>login</Button>
                 <br />
                 <Button onClick={() => {
