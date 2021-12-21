@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Configuration, Identity, V0alpha2Api } from '@ory/kratos-client'
+import { Configuration, Identity, UiContainer, V0alpha2Api } from '@ory/kratos-client'
 import './AuthenticationManagerPopup.css'
 import { AuthenticationRequest } from './authenticationObserbale';
 import { Observable } from '@apollo/client';
@@ -15,7 +15,7 @@ const config = new Configuration({
 });
 const api = new V0alpha2Api(config);
 export const AuthenticationManagerPopup: React.FC<{ a: Observable<AuthenticationRequest> }> = (props) => {
-    const [authRequest, setAuthRequest] = useState<AuthenticationRequest | null>(null)
+    const [authRequests, setAuthRequests] = useState<AuthenticationRequest[]>([])
     const [meData, setMeData] = useState<Identity | null>(null)
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -29,19 +29,20 @@ export const AuthenticationManagerPopup: React.FC<{ a: Observable<Authentication
     }, [])
     useEffect(() => {
         const subscription = props.a.subscribe(req => {
-            setAuthRequest(req)
+            setAuthRequests([...authRequests, req])
         })
         return () => {
             subscription.unsubscribe()
         }
     }, [])
-    if (!authRequest)
+    if (authRequests.length === 0) {
         return null
+    }
     return (
         <div id="authentication-manager-popup">
             <div>
                 <h1>Authentication Panel</h1>
-                {meData ? <p>Hello, {meData.traits.email}</p> : null}
+                {meData ? <p>Hello, {meData?.traits.email}</p> : null}
                 <br />
                 <Input onChange={setEmail} description='email' autoComplete='email' />
                 <br />
@@ -65,6 +66,7 @@ export const AuthenticationManagerPopup: React.FC<{ a: Observable<Authentication
                             csrf_token: csrf_token
                         })
                         console.log(registrationResponse.data);
+                        resp.data.ui
                         api.initializeSelfServiceVerificationFlowForBrowsers().then(resp => {
                             console.log(resp.data);
                             const csrf_token = (resp.data.ui.nodes[0].attributes as { value: string }).value;
@@ -77,7 +79,7 @@ export const AuthenticationManagerPopup: React.FC<{ a: Observable<Authentication
                             })
                         })
                     } catch (e) {
-                        alert(e)
+                        alertUnknownError(e)
                     }
                 }}>register</Button>
 
@@ -98,21 +100,22 @@ export const AuthenticationManagerPopup: React.FC<{ a: Observable<Authentication
                             csrf_token: csrf_token
                         })
                         console.log(registrationResponse.data);
-                        authRequest.onFinished()
-                        setAuthRequest(null)
+                        authRequests.forEach(r => r.onFinished())
+                        setAuthRequests([])
                     } catch (error) {
-                        alert(error)
+                        alertUnknownError(error)
                     }
                 }}>login</Button>
                 <br />
                 <Button onClick={() => {
-                    authRequest.onFailed("User closed window")
-                    setAuthRequest(null)
+                    authRequests.forEach(r => r.onFailed("User closed window"))
+                    setAuthRequests([])
                 }}>close</Button>
             </div>
         </div>
     )
 }
+
 export const logout = async () => {
     console.log('logout');
     const resp = await api.createSelfServiceLogoutFlowUrlForBrowsers()
@@ -125,4 +128,18 @@ export const LogoutButton: React.FC = props => {
     return (
         <Button onClick={logout}>Logout</Button>
     )
+}
+
+type ErrorWithUI = { response: { data: { ui: UiContainer } } }
+const isMessageError = (e: unknown): e is ErrorWithUI => {
+    return ((e as ErrorWithUI).response?.data?.ui?.messages?.length || 0) > 0
+}
+const alertUnknownError = (e: unknown) => {
+    if (isMessageError(e)) {
+        for (const message of e.response.data.ui.messages!) {
+            alert(message.text)
+        }
+    } else {
+        alert(e)
+    }
 }
