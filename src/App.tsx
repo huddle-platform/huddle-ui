@@ -8,7 +8,7 @@ const App: React.FC = () => {
   const { data: meData } = useGetMeQuery();
   return (
     <Routes>
-      <Route path="*" element={<Home/>}/>
+      <Route path="*" element={<HomePage/>}/>
       <div className="App">
         <AuthenticationManagerPopup a={authenticationStream.observable} />
         <h1>Huddle</h1>

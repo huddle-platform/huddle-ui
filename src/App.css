@@ -13,6 +13,10 @@
   }
 }
 
+.App::-webkit-scrollbar {
+  display: none;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -39,4 +43,10 @@
 
 button {
   font-size: calc(10px + 2vmin);
+}
+
+div.home-content {
+  overflow-y: auto;
+  margin-top: 100px;
+  height: 100%;
 }
