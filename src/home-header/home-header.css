@@ -68,3 +68,41 @@ h1.home-header2 {
     color: black;
     display: inline;
 }
+
+.home-logo-huddle-icon {
+    width: 25vh;
+    float: right;
+    margin-right: 8vh;
+    margin-top: 8vh;
+}
+
+.home-header-category-button {
+    font-size: 20px;
+    display: inline-flex;
+    margin-right: 30px;
+    font-weight: 600;
+    padding-bottom: 1.2vh;
+    transition: all 100ms ease-out 50ms;
+}
+
+.home-header-category-button:hover {
+    color: #0066FF;
+    border-bottom: 4px solid #0066FF;
+    padding-bottom: 1.2vh;
+}
+
+.home-header-category-button-activated {
+    font-size: 20px;
+    display: inline-flex;
+    margin-right: 30px;
+    font-weight: 600;
+    color: #0066FF;
+    border-bottom: 4px solid #0066FF;
+    padding-bottom: 1.2vh;
+}
+
+.home-header-category-list {
+    margin-left: 30vh;
+    margin-top: 11vh;
+    position: relative;
+}
