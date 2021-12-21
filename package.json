@@ -1,6 +1,6 @@
 {
   "name": "huddle-ui",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -16,7 +16,8 @@
     "@ory/kratos-client": "^0.8.0-alpha.2",
     "graphql": "^16.0.1",
     "react": "^17.0.0",
-    "react-dom": "^17.0.0"
+    "react-dom": "^17.0.0",
+    "react-router-dom": "6"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.3.0",
