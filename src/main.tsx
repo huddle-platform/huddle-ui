@@ -11,7 +11,7 @@ import { BrowserRouter } from 'react-router-dom';
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <BrowserRouter>
+      <BrowserRouter basename='/ui'>
         <App />
       </BrowserRouter>
     </ApolloProvider>

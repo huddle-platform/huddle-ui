@@ -1,0 +1,23 @@
+.huddle-navigator{
+    width: 100%;
+    background-color: #EAF5FF;
+    height: 100px;
+    font-size: 50px;
+    display: flex;
+    flex-direction: row;
+}
+.huddle-navigator>a{
+    text-decoration: none;
+    color: #000000;
+    margin: 25px;
+    position: relative;
+}
+.huddle-navigator>.huddle-navigator-right{
+    flex-grow: 1;
+    text-align: right;
+    margin-top:25px
+}
+.huddle-navigator>.huddle-navigator-right>a{
+    margin: 25px;
+    position: relative;
+}
