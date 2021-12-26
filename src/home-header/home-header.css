@@ -77,7 +77,7 @@ h1.home-header2 {
 }
 
 .home-header-category-button {
-    font-size: 20px;
+    font-size: 2vh;
     display: inline-flex;
     margin-right: 30px;
     font-weight: 600;
@@ -88,21 +88,21 @@ h1.home-header2 {
 .home-header-category-button:hover {
     color: #0066FF;
     border-bottom: 4px solid #0066FF;
-    padding-bottom: 1.2vh;
+    padding-bottom: 0.7vh;
 }
 
 .home-header-category-button-activated {
-    font-size: 20px;
+    font-size: 2vh;
     display: inline-flex;
     margin-right: 30px;
     font-weight: 600;
     color: #0066FF;
     border-bottom: 4px solid #0066FF;
-    padding-bottom: 1.2vh;
+    padding-bottom: 0.7vh;
 }
 
 .home-header-category-list {
-    margin-left: 30vh;
-    margin-top: 11vh;
-    position: relative;
+    left: 30vh;
+    top: 36.5vh;
+    position: absolute;
 }
