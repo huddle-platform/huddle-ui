@@ -1,0 +1,22 @@
+.huddle-button{
+    display: inline-block;
+    padding: 0em 2em;
+    min-width: 250px;
+    border-radius: 28px;
+    height: 56px;
+    cursor: pointer;
+    text-decoration: none;
+    margin: 10px;
+    font-size: 27px;
+}
+.huddle-button-filled{
+    background-color: #0066FF;
+    color: #fff;
+    border: 1px solid black;
+}
+
+.huddle-button-unfilled{
+    background-color: #fff;
+    color: #0066FF;
+    border: 1px solid #0066FF;
+}

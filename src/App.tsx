@@ -1,15 +1,21 @@
 import './App.css';
-import { useGetChatsQuery } from './schemas';
-import ShowList from './project-list/project-list';
-import ShowDetail from './project-detail/project-detail';
-import Home from './home-header/home-header';
+import { authenticationStream } from './client';
+import { AuthenticationManagerPopup, LogoutButton } from './authentication/AuthenticationManagerPopup';
+import { Link, Route, Routes } from 'react-router-dom';
 import HomePage from './home-page/home-page';
-
-function App() {
-  const { data, loading } = useGetChatsQuery();
-  if (loading) return <div>Loading...</div>
+import { Navigator } from './navigator/Navigator';
+import { MyProfile } from './profile/MyProfile';
+const App: React.FC = () => {
   return (
-    <HomePage></HomePage>
+    <div>
+      <AuthenticationManagerPopup a={authenticationStream.observable} />
+      <Navigator />
+      <Routes>
+        <Route path="profile" element={<MyProfile />} />
+        <Route path="messages" element={<div>Messages</div>} />
+        <Route path="*" element={<HomePage />} />
+      </Routes>
+    </div>
   );
 }
 

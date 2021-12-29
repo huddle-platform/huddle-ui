@@ -3,20 +3,17 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
 import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
+  ApolloProvider
 } from "@apollo/client";
-
-const client = new ApolloClient({
-  uri: 'https://huddle.ridilla.eu/api/query',
-  cache: new InMemoryCache()
-});
+import { client } from './client';
+import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-    <App />
+      <BrowserRouter basename='/ui'>
+        <App />
+      </BrowserRouter>
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root')

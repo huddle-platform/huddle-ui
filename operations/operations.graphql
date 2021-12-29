@@ -1,19 +1,14 @@
 query getMe {
   me {
-    id
-    username
+    email
+    createdProjects {
+      name
+      description
+    }
   }
 }
-
-query getChats{
-  chats {
+mutation createProject($newProject: NewProjectInput!) {
+  createProject(project: $newProject) {
     id
-    with {
-      username
-    }
-    messages {
-      author
-      content
-    }
   }
 }

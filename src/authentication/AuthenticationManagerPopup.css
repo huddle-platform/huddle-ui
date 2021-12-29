@@ -1,0 +1,21 @@
+#authentication-manager-popup{
+  position: fixed;
+  top:0;
+  left:0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  backdrop-filter: blur(5px);
+}
+#authentication-manager-popup>div{
+  margin-left: auto;
+  margin-right: auto;
+  width: 350px;
+  padding: 20px;
+  margin-top: 30px;
+  border-radius: 10px;
+  background-color: #EAF5FF;
+}
+#authentication-manager-popup>br{
+  display: none;
+}

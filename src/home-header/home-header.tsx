@@ -50,7 +50,7 @@ const HomeHeader = () => {
 
     return (
         <div className="home-header">
-            <img src={"/huddle-logo.png"} className="home-logo-huddle-icon"
+            <img src={"/ui/huddle-logo.png"} className="home-logo-huddle-icon"
                 style={{transform: `rotate(${rotLogo}deg)`, opacity: opac}}></img>
 
             <h1 className="home-header1" style={{opacity: opac}}>Find your next</h1>
