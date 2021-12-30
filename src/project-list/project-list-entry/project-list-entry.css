@@ -10,7 +10,7 @@ h1.project-list-entry {
     color: #000000;
 }
 
-body.project-list-entry {
+p.project-list-entry {
     font-family: Arial, Helvetica, sans-serif;
     font-style: normal;
     font-weight: normal;

@@ -1,0 +1,35 @@
+div.chat-bubble {
+  width: 50%;
+  margin: 15px;
+  border-radius: 15px;
+  height: fit-content;
+  padding: 15px;
+  position: relative;
+  color: white;
+}
+div.chat-bubble-me {
+  background-color: rgb(43, 104, 216);
+  margin-left: 35%;
+  text-align: right;
+}
+
+div.chat-bubble-other {
+  background-color: rgb(194, 194, 194);
+  margin-left: 5%;
+}
+
+div.sender-indicator {
+  position: absolute;
+  font-size: 12px;
+  top: 7px;
+  left: 15px;
+}
+div.chat-bubble-pending {
+  filter: grayscale();
+}
+div.chat-bubble > div.bubble-date {
+  position: absolute;
+  font-size: 12px;
+  top: 7px;
+  right: 15px;
+}

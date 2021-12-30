@@ -1,0 +1,9 @@
+div.messanger {
+  position: relative;
+  width: 100%;
+}
+div.chat-container {
+  position: absolute;
+  width: 50%;
+  left: 50%;
+}

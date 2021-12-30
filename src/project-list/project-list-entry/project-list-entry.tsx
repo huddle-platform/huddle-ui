@@ -14,7 +14,7 @@ function ShowEntry() {
       <h2 className="project-list-entry">Location</h2>
       </span>
       
-      <body className="project-list-entry">This is our great app called Huddle. Here we have an example gql query result:</body>
+      <p className="project-list-entry">This is our great app called Huddle. Here we have an example gql query result:</p>
 
       <AccessTimeIcon className="project-list-entry-time"/>
       <span>

@@ -1,0 +1,11 @@
+div.my-profile {
+  background-color: #eaf5ff;
+  height: 100%;
+  margin: 0;
+  padding: 20px;
+
+}
+
+.my-profile>h1{
+    text-align: center;
+}

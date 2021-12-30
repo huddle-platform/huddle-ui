@@ -1,6 +1,7 @@
 import { useGetMeQuery, useCreateProjectMutation } from "../schemas";
 import Button from "../shared/Button";
 import Input from "../shared/Input";
+import "./myProfile.css"
 
 export const MyProfile: React.FC = (props) => {
     const { data, loading, error } = useGetMeQuery();
@@ -10,7 +11,7 @@ export const MyProfile: React.FC = (props) => {
     let titleRef = { value: '' }
     let descriptionRef = { value: '' }
     return (
-        <div>
+        <div className="my-profile">
             <h1>My Profile</h1>
             <div>Email: {data?.me.email}</div>
             <h2>My projects</h2>
