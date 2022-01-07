@@ -1,6 +1,7 @@
 query getMe {
   me {
     email
+    username
     createdProjects {
       name
       description
@@ -11,4 +12,45 @@ mutation createProject($newProject: NewProjectInput!) {
   createProject(project: $newProject) {
     id
   }
+}
+
+mutation myChats {
+  chats {
+    other{
+      id
+      username
+    }
+    messages(count:1) {
+      author
+      content
+      time
+    }
+  }
+}
+
+mutation writeMessageToUserId($userId: ID!, $message: String!) {
+  getChatById(withUserId: $userId) {
+    writeMessage(content: $message){time}
+  }
+}
+query getUserIdByUsername($username: String!) {
+  getUserByUsername(username: $username) {
+    id
+  }
+}
+mutation getChatWithUserId($userId: ID!, $start: Int!, $count: Int!) {
+  getChatById(withUserId: $userId) {
+    messages(start: $start, count: $count) {
+      author
+      content
+      time
+    }
+    other{
+      username
+    }
+  }
+}
+
+mutation setMyUsername($username: String!) {
+  setMyUsername(username: $username) 
 }
