@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Configuration, Identity, UiContainer, V0alpha2Api } from '@ory/kratos-client'
 import './AuthenticationManagerPopup.css'
 import { AuthenticationRequest } from './authenticationObserbale';
-import { Observable } from '@apollo/client';
+import { Observable, useApolloClient } from '@apollo/client';
 import { useGetMeQuery } from '../schemas';
 import Button from '../shared/Button';
 import Input from '../shared/Input';
@@ -14,7 +14,17 @@ const config = new Configuration({
     }
 });
 const api = new V0alpha2Api(config);
+export const getMyIdWithoutLoginPromtIfNotLoggedIn = async () => {
+    try {
+
+        const me = await api.toSession()
+        return me.data.id
+    } finally {
+        return undefined
+    }
+}
 export const AuthenticationManagerPopup: React.FC<{ a: Observable<AuthenticationRequest> }> = (props) => {
+    const client = useApolloClient()
     const [authRequests, setAuthRequests] = useState<AuthenticationRequest[]>([])
     const [meData, setMeData] = useState<Identity | null>(null)
     const [email, setEmail] = useState("")
@@ -76,13 +86,16 @@ export const AuthenticationManagerPopup: React.FC<{ a: Observable<Authentication
                                 csrf_token
                             }).then(resp => {
                                 console.log(resp.data);
+                                client.refetchQueries({
+                                    include: "active",
+                                });
                             })
                         })
                     } catch (e) {
                         alertUnknownError(e)
                     }
                 }}>register</Button>
-
+                <p>or</p>
                 <br />
                 <Button filled onClick={async () => {
                     try {

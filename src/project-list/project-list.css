@@ -8,6 +8,7 @@ div.project-list {
     height: 100%;
     box-sizing: border-box;
     scrollbar-width: thin;
+    position: relative;
 }
 
 *::-webkit-scrollbar {
@@ -21,4 +22,9 @@ div.project-list {
 *::-webkit-scrollbar-thumb {
     background-color: lightgray;
     border-radius: 30px;
+}
+div.project-browser{
+    width: 100%;
+    height: 100%;
+    position: relative;
 }

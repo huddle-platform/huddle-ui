@@ -2,16 +2,13 @@ import { ChatPreview, ChatPreviewProps } from "./ChatPreview";
 import "./chatList.css"
 import Input from "../shared/Input";
 import { useEffect, useState } from "react";
-import { MessageAuthor, useGetUserIdByUsernameQuery, useMyChatsMutation } from "../schemas";
+import { MessageAuthor, useGetUserIdByUsernameQuery, useMyChatsQuery } from "../schemas";
 export const ChatList: React.FC<{ onChatSelected?: (selectedUserId: string) => void }> = props => {
     const [searchInput, setSearchInput] = useState("")
-    const [updateChatList, chatList] = useMyChatsMutation({})
+    const myChatsQueryResult = useMyChatsQuery({ pollInterval: 10000 })
     const foundUser = useGetUserIdByUsernameQuery({ variables: { username: searchInput } })
-    useEffect(() => {
-        updateChatList()
-    }, [])
     const [selected, setSelected] = useState<number>(-1)
-    const filteredList = chatList.data?.chats?.filter(chat => chat.other?.username?.toLowerCase().includes(searchInput.toLowerCase())) || []
+    const filteredList = myChatsQueryResult.data?.chats?.filter(chat => chat.other?.username?.toLowerCase().includes(searchInput.toLowerCase())) || []
     if (foundUser.data?.getUserByUsername && filteredList.length === 0) {
         filteredList.push({
             messages: [{ author: MessageAuthor.Other, content: "Start chatting with me!", time: new Date() }],

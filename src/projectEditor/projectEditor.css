@@ -1,0 +1,9 @@
+div.project-editor{
+    width: 90%;
+    height: 100%;
+    position: relative;
+    background-color: white;
+    margin: auto;
+    border-radius: 15px;
+    padding: 20px;
+}

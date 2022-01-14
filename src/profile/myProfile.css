@@ -9,3 +9,18 @@ div.my-profile {
 .my-profile>h1{
     text-align: center;
 }
+div.my-profile-my-projects-container{
+  width: 100%;
+
+  height: 50vh;
+  position: relative;
+}
+div.profile-card{
+  margin-top: 30px;
+  background-color: white;
+  border-radius: 15px;
+  padding: 20px;
+}
+div.profile-card>h2{
+  text-align: center;
+}
