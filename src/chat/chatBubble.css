@@ -6,6 +6,7 @@ div.chat-bubble {
   padding: 15px;
   position: relative;
   color: white;
+  overflow-x: auto;
 }
 div.chat-bubble-me {
   background-color: rgb(43, 104, 216);

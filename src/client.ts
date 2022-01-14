@@ -1,10 +1,10 @@
 import { HttpLink, ApolloClient, InMemoryCache, ApolloLink, Observable } from "@apollo/client";
 import PushStream from "zen-push"
 import { AuthenticationRequest } from "./authentication/authenticationObserbale";
+import config  from "./config";
 
 const endpointLink = new HttpLink({
-    uri: 'https://huddle.ridilla.eu/api/query',
-    //uri: 'http://localhost:8080/api/query',
+    uri: config.gqlUrl,
     credentials: "include"
 });
 export const authenticationStream = new PushStream<AuthenticationRequest>();

@@ -13,16 +13,18 @@ export const MyProfile: React.FC = (props) => {
     return (
         <div className="my-profile">
             <h1>My Profile</h1>
-            <div>Email: {data?.me.email}</div>
-            <p>Username: {data?.me?.username}<Input description="Update username" enterOnUnfocus onEnter={(newUsername) => {
-                setMyUsername({ variables: { username: newUsername } }).then((res) => {
-                    if (res.data?.setMyUsername) {
-                        refetch()
-                    } else {
-                        alert("Username already taken")
-                    }
-                })
-            }} /></p>
+            <div className="profile-card">
+                <div>Email: {data?.me.email}</div>
+                <p>Username: {data?.me?.username}<Input description="Update username" enterOnUnfocus onEnter={(newUsername) => {
+                    setMyUsername({ variables: { username: newUsername } }).then((res) => {
+                        if (res.data?.setMyUsername) {
+                            refetch()
+                        } else {
+                            alert("Username already taken")
+                        }
+                    })
+                }} /></p>
+            </div>
             <div className="profile-card">
                 <h2>My projects</h2>
                 <div className="my-profile-my-projects-container">

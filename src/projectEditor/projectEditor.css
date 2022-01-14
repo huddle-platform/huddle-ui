@@ -1,9 +1,32 @@
-div.project-editor{
-    width: 90%;
-    height: 100%;
-    position: relative;
-    background-color: white;
-    margin: auto;
-    border-radius: 15px;
+div.project-editor {
+  width: 90%;
+  height: 100%;
+  position: relative;
+  background-color: white;
+  margin: auto;
+  border-radius: 15px;
+  padding: 20px;
+}
+div.project-editor img {
+  width: 300px;
+  margin: auto;
+
+}
+
+div.image-editor{
+    background-color: whitesmoke;
+    width: 400px;
+    height: 550px;
+    margin: 10px;
+    text-align: center;
+    border-radius: 10px;
     padding: 20px;
+    float:left;
+    display:inline;
+    flex-shrink: 0;
+}
+div.image-list{
+    overflow-x: scroll;
+    width: 100%;
+    display: flex;
 }

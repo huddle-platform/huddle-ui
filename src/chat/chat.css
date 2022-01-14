@@ -5,4 +5,5 @@
     overflow-y: auto;
     border-radius: 15px;
     max-height: 50vh;
+    overflow-x: hidden;
 }

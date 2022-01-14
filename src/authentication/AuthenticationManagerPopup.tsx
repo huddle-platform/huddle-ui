@@ -6,14 +6,14 @@ import { Observable, useApolloClient } from '@apollo/client';
 import { useGetMeQuery } from '../schemas';
 import Button from '../shared/Button';
 import Input from '../shared/Input';
-const config = new Configuration({
-    //basePath: 'http://localhost:8090',
-    basePath: 'https://huddle.ridilla.eu/.ory/kratos',
+import config from "../config"
+const kratosConfig = new Configuration({
+    basePath: config.kratosUrl,
     baseOptions: {
         withCredentials: true
     }
 });
-const api = new V0alpha2Api(config);
+const api = new V0alpha2Api(kratosConfig);
 export const getMyIdWithoutLoginPromtIfNotLoggedIn = async () => {
     try {
 

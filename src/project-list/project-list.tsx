@@ -8,6 +8,9 @@ export type ProjectListProps = {
 }
 const ProjectList: React.FC<ProjectListProps> = (props) => {
     const [detailID,setDetailID]=useState("");
+    if(detailID==""&&props.entries.length>0){
+        setDetailID(props.entries[0].id);
+    }
     return (
         <div className="project-browser">
             <div className="project-list">
