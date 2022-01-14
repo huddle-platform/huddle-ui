@@ -5,6 +5,8 @@ import { Link, Route, Routes } from 'react-router-dom';
 import HomePage from './home-page/home-page';
 import { Navigator } from './navigator/Navigator';
 import { MyProfile } from './profile/MyProfile';
+import { Messanger } from './chat/Messanger';
+import { ProjectEditor } from './projectEditor/ProjectEditor';
 const App: React.FC = () => {
   return (
     <div>
@@ -12,7 +14,8 @@ const App: React.FC = () => {
       <Navigator />
       <Routes>
         <Route path="profile" element={<MyProfile />} />
-        <Route path="messages" element={<div>Messages</div>} />
+        <Route path="edit-project/:id" element={<ProjectEditor/>} />
+        <Route path="messages" element={<Messanger />} />
         <Route path="*" element={<HomePage />} />
       </Routes>
     </div>

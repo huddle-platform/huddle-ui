@@ -1,14 +1,102 @@
 query getMe {
   me {
     email
+    username
     createdProjects {
       name
       description
+      id
     }
+  }
+}
+query getMeWithoutLoginPrompt{
+  meIfLoggedIn {
+    email
+    username
+    id
   }
 }
 mutation createProject($newProject: NewProjectInput!) {
   createProject(project: $newProject) {
     id
+  }
+}
+
+query myChats {
+  chats {
+    other{
+      id
+      username
+    }
+    messages(count:1) {
+      author
+      content
+      time
+    }
+  }
+}
+
+mutation writeMessageToUserId($userId: ID!, $message: String!) {
+    writeMessageToUser(userId:$userId,content: $message)
+}
+query getUserIdByUsername($username: String!) {
+  getUserByUsername(username: $username) {
+    id
+  }
+}
+query getChatWithUserId($userId: ID!, $start: Int!, $count: Int!) {
+  getChatById(withUserId: $userId) {
+    messages(start: $start, count: $count) {
+      author
+      content
+      time
+    }
+    other{
+      username
+    }
+  }
+}
+
+mutation setMyUsername($username: String!) {
+  setMyUsername(username: $username) 
+}
+query getProjectById($id: ID!) {
+  getProject(id: $id) {
+    name
+    description
+    creator {
+      username
+      id
+    }
+    participants {
+      username
+    }
+    languages
+  }
+}
+
+query searchProjects($searchString:String!) {
+  searchProjects(searchString: $searchString) {
+    id
+    name
+    description
+    languages
+  }
+}
+
+mutation updateProjectName($projectId:ID!, $newName:String!){
+  projectMutation(id:$projectId){
+    updateName(newName:$newName)
+  }
+}
+
+mutation updateProjectDescription($projectId:ID!, $newDescription:String!){
+  projectMutation(id:$projectId){
+    updateDescription(newDescription:$newDescription)
+  }
+}
+mutation deleteProject($projectId:ID!){
+  projectMutation(id:$projectId){
+    deleteProject
   }
 }
