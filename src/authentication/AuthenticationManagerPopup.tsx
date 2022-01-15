@@ -13,7 +13,7 @@ const kratosConfig = new Configuration({
         withCredentials: true
     }
 });
-const api = new V0alpha2Api(kratosConfig);
+export const api = new V0alpha2Api(kratosConfig);
 export const getMyIdWithoutLoginPromtIfNotLoggedIn = async () => {
     try {
 
@@ -103,10 +103,9 @@ export const AuthenticationManagerPopup: React.FC<{ a: Observable<Authentication
                         const resp = await api.initializeSelfServiceLoginFlowForBrowsers()
                         console.log(resp.data);
                         if (!resp) return
-                        const loginFlowId = resp.data.id;
                         const csrf_token = (resp.data.ui.nodes[0].attributes as { value: string }).value;
 
-                        const registrationResponse = await api.submitSelfServiceLoginFlow(loginFlowId, undefined, {
+                        const registrationResponse = await api.submitSelfServiceLoginFlow(resp.data.id, undefined, {
                             method: "password",
                             password: password,
                             password_identifier: email,
@@ -119,6 +118,28 @@ export const AuthenticationManagerPopup: React.FC<{ a: Observable<Authentication
                         alertUnknownError(error)
                     }
                 }}>login</Button>
+                <br />
+                <Button onClick={async () => {
+                    try {
+                        console.log('trying to recover account');
+                        const resp = await api.initializeSelfServiceRecoveryFlowForBrowsers()
+                        console.log(resp.data);
+                        if (!resp) return
+                        const loginFlowId = resp.data.id;
+                        const csrf_token = (resp.data.ui.nodes[0].attributes as { value: string }).value;
+
+                        const recoveryResponse=await api.submitSelfServiceRecoveryFlow(resp.data.id,undefined,{
+                            method: "link",
+                            email,
+                            csrf_token
+                        })
+                        console.log(recoveryResponse.data);
+                        authRequests.forEach(r => r.onFinished())
+                        setAuthRequests([])
+                    } catch (error) {
+                        alertUnknownError(error)
+                    }
+                }}>reset password</Button>
                 <br />
                 <Button onClick={() => {
                     authRequests.forEach(r => r.onFailed("User closed window"))

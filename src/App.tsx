@@ -7,6 +7,7 @@ import { Navigator } from './navigator/Navigator';
 import { MyProfile } from './profile/MyProfile';
 import { Messanger } from './chat/Messanger';
 import { ProjectEditor } from './projectEditor/ProjectEditor';
+import { RecoveryManager } from './authentication/RecoveryManager';
 const App: React.FC = () => {
   return (
     <div>
@@ -14,8 +15,9 @@ const App: React.FC = () => {
       <Navigator />
       <Routes>
         <Route path="profile" element={<MyProfile />} />
-        <Route path="edit-project/:id" element={<ProjectEditor/>} />
+        <Route path="edit-project/:id" element={<ProjectEditor />} />
         <Route path="messages" element={<Messanger />} />
+        <Route path="recovery" element={<RecoveryManager />} />
         <Route path="*" element={<HomePage />} />
       </Routes>
     </div>
