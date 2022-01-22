@@ -1,10 +1,10 @@
 import { HttpLink, ApolloClient, InMemoryCache, ApolloLink, Observable } from "@apollo/client";
 import PushStream from "zen-push"
 import { AuthenticationRequest } from "./authentication/authenticationObserbale";
-import config  from "./config";
+import {clientConfig}  from "./config";
 
 const endpointLink = new HttpLink({
-    uri: config.gqlUrl,
+    uri: clientConfig.gqlUrl,
     credentials: "include"
 });
 export const authenticationStream = new PushStream<AuthenticationRequest>();

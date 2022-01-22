@@ -6,9 +6,9 @@ import { Observable, useApolloClient } from '@apollo/client';
 import { useGetMeQuery } from '../schemas';
 import Button from '../shared/Button';
 import Input from '../shared/Input';
-import config from "../config"
+import { clientConfig } from "../config"
 const kratosConfig = new Configuration({
-    basePath: config.kratosUrl,
+    basePath: clientConfig.kratosUrl,
     baseOptions: {
         withCredentials: true
     }
@@ -128,7 +128,7 @@ export const AuthenticationManagerPopup: React.FC<{ a: Observable<Authentication
                         const loginFlowId = resp.data.id;
                         const csrf_token = (resp.data.ui.nodes[0].attributes as { value: string }).value;
 
-                        const recoveryResponse=await api.submitSelfServiceRecoveryFlow(resp.data.id,undefined,{
+                        const recoveryResponse = await api.submitSelfServiceRecoveryFlow(resp.data.id, undefined, {
                             method: "link",
                             email,
                             csrf_token

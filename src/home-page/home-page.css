@@ -2,3 +2,9 @@ div.home-bottom {
   background-color: white;
   height: 95vh;
 }
+
+img.home-logo-huddle-icon-mobile{
+  height: 60px;
+  float: right;
+  transform: translateY(-30%);
+}
