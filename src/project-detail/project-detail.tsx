@@ -21,7 +21,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = (props) => {
         <div className="project-detail" style={{
             width: config.view == "mobile" ? "100%" : "60%"
         }}>
-            <Button onClick={props.onBackClicked} >Back</Button>
+            {config.view == "mobile" && <Button onClick={props.onBackClicked} >Back</Button>}
             <h1>{projectResult.data?.getProject?.name}</h1>
             <p>{projectResult.data?.getProject?.description}</p>
             {images && images.length > 0 ? <div >
