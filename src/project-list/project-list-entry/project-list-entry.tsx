@@ -16,7 +16,7 @@ const ProjectListEntry: React.FC<ProjectListEntryProps> = (props) => {
   return (
     <div className="project-list-entry" onClick={() => {
       props.onClick?.(props.id);
-    }}>
+    }} key={props.id}>
       <h1 className="project-list-entry">{props.name}</h1>
 
       <LocationOn className="project-list-entry-location" />

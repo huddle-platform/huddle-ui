@@ -20,8 +20,8 @@ query getProjectById($id: ID!) {
   }
 }
 
-query searchProjects($searchString:String!) {
-  searchProjects(searchString: $searchString) {
+query searchProjects($searchString:String!, $offset:Int!=0, $limit:Int!=20) {
+  searchProjects(searchString: $searchString,offset: $offset, countLimit: $limit) {
     id
     name
     description
