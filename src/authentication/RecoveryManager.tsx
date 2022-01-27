@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useSearchParams } from "react-router-dom"
 import Input from "../shared/Input"
-import { api } from "./AuthenticationManagerPopup"
+import { getAPI } from "./AuthenticationManagerPopup"
 
 export const RecoveryManager: React.FC = () => {
     const [searchParams] = useSearchParams()
@@ -10,6 +10,7 @@ export const RecoveryManager: React.FC = () => {
         <div>
             <h1>Set a new password</h1>
             <Input type="password" onEnter={async (newPassword) => {
+                const api = await getAPI()
                 const settingsFlowData = await api.initializeSelfServiceSettingsFlowForBrowsers()
                 const csrf_token = (settingsFlowData.data.ui.nodes[0].attributes as { value: string }).value;
                 const settingsFlowId = settingsFlowData.data.id;

@@ -1,28 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { Configuration, Identity, UiContainer, V0alpha2Api } from '@ory/kratos-client'
+import type { Identity, UiContainer } from '@ory/kratos-client'
+export const getAPI = async () => {
+    const { V0alpha2Api, Configuration } = await import("@ory/kratos-client")
+    const kratosConfig = new Configuration({
+        basePath: clientConfig.kratosUrl,
+        baseOptions: {
+            withCredentials: true
+        }
+    });
+    return new V0alpha2Api(kratosConfig);
+}
 import './AuthenticationManagerPopup.css'
 import { AuthenticationRequest } from './authenticationObserbale';
 import { Observable, useApolloClient } from '@apollo/client';
-import { useGetMeQuery } from '../schemas';
 import Button from '../shared/Button';
 import Input from '../shared/Input';
 import { clientConfig } from "../config"
-const kratosConfig = new Configuration({
-    basePath: clientConfig.kratosUrl,
-    baseOptions: {
-        withCredentials: true
-    }
-});
-export const api = new V0alpha2Api(kratosConfig);
-export const getMyIdWithoutLoginPromtIfNotLoggedIn = async () => {
-    try {
-
-        const me = await api.toSession()
-        return me.data.id
-    } finally {
-        return undefined
-    }
-}
 export const AuthenticationManagerPopup: React.FC<{ a: Observable<AuthenticationRequest> }> = (props) => {
     const client = useApolloClient()
     const [authRequests, setAuthRequests] = useState<AuthenticationRequest[]>([])
@@ -30,12 +23,12 @@ export const AuthenticationManagerPopup: React.FC<{ a: Observable<Authentication
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     useEffect(() => {
-        api.toSession().then(session => {
+        getAPI().then(api => api.toSession().then(session => {
             console.log(session.data.identity)
             setMeData(session.data.identity)
         }).catch(e => {
             console.log(e)
-        })
+        }))
     }, [])
     useEffect(() => {
         const subscription = props.a.subscribe(req => {
@@ -61,6 +54,7 @@ export const AuthenticationManagerPopup: React.FC<{ a: Observable<Authentication
                 <Button filled onClick={async () => {
                     try {
                         console.log('registering user');
+                        const api = await getAPI()
                         const resp = await api.initializeSelfServiceRegistrationFlowForBrowsers()
                         console.log(resp.data);
                         if (!resp) return
@@ -100,6 +94,7 @@ export const AuthenticationManagerPopup: React.FC<{ a: Observable<Authentication
                 <Button filled onClick={async () => {
                     try {
                         console.log('login');
+                        const api = await getAPI()
                         const resp = await api.initializeSelfServiceLoginFlowForBrowsers()
                         console.log(resp.data);
                         if (!resp) return
@@ -122,6 +117,7 @@ export const AuthenticationManagerPopup: React.FC<{ a: Observable<Authentication
                 <Button onClick={async () => {
                     try {
                         console.log('trying to recover account');
+                        const api = await getAPI()
                         const resp = await api.initializeSelfServiceRecoveryFlowForBrowsers()
                         console.log(resp.data);
                         if (!resp) return
@@ -152,6 +148,7 @@ export const AuthenticationManagerPopup: React.FC<{ a: Observable<Authentication
 
 export const logout = async () => {
     console.log('logout');
+    const api = await getAPI()
     const resp = await api.createSelfServiceLogoutFlowUrlForBrowsers()
     console.log(resp.data);
     if (!resp) return
