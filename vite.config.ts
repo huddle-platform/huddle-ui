@@ -5,9 +5,9 @@ import analyze from 'rollup-plugin-analyzer'
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
   return {
-    plugins: [react(),analyze({filter:(mod)=>{
+    plugins: mode=="production"?[react(),analyze({filter:(mod)=>{
       return mod.size!=0
-    },hideDeps:true})],
+    },hideDeps:true})]:[react()],
     base:"/ui/",
   }
 })
