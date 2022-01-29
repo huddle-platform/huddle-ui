@@ -4,4 +4,5 @@ div.project-detail {
     vertical-align: middle;
     box-sizing: border-box;
     height: 100%;
+    padding: 10px;
 }

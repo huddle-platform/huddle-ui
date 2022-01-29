@@ -9,7 +9,7 @@ export const MyProfile: React.FC = (props) => {
     const { data, loading, error, refetch } = useGetMeQuery();
     const [setMyUsername] = useSetMyUsernameMutation()
     const [createProjectMutation] = useCreateProjectMutation();
-    const navigate=useNavigate()
+    const navigate = useNavigate()
     return (
         <div className="my-profile">
             <h1>My Profile</h1>
@@ -36,13 +36,15 @@ export const MyProfile: React.FC = (props) => {
                 </div>
             </div>
 
-            <Button onClick={async () => {
-                const res = await createProjectMutation({ variables: { newProject: { name: "My new project", description: "", languages: [] } } })
-                if (res.data?.createProject) {
-                    navigate(`/edit-project/${res.data.createProject.id}`)
-                }
+            <p style={{ textAlign: "center" }}>
+                <Button onClick={async () => {
+                    const res = await createProjectMutation({ variables: { newProject: { name: "My new project", description: "", languages: [] } } })
+                    if (res.data?.createProject) {
+                        navigate(`/edit-project/${res.data.createProject.id}`)
+                    }
 
-            }}>Create new Project</Button>
+                }}>Create new Project</Button>
+            </p>
         </div>
     )
 

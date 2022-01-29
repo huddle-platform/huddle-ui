@@ -1,15 +1,24 @@
-div.project-editor {
-  width: 90%;
-  max-width: 1000px;
+div.project-editor>h1{
+  text-align: center;
+}
+div.project-editor{
+
+  background-color: #eaf5ff;
   height: 100%;
-  position: relative;
-  background-color: white;
+  margin: 0;
+  padding: 20px;
+}
+.project-editor-component {
   margin: auto;
+  margin-top: 30px;
+  background-color: white;
   border-radius: 15px;
   padding: 20px;
+  max-width: 1000px;
 }
 div.project-editor img {
   width: 300px;
+  max-height: 400px;
   margin: auto;
 
 }
@@ -28,6 +37,5 @@ div.image-editor{
 }
 div.image-list{
     overflow-x: scroll;
-    width: 100%;
     display: flex;
 }
