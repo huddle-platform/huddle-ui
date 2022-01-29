@@ -1,5 +1,6 @@
 div.project-editor {
   width: 90%;
+  max-width: 1000px;
   height: 100%;
   position: relative;
   background-color: white;

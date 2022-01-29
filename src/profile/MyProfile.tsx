@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import ProjectList from "../project-list/project-list";
 import { useGetMeQuery, useCreateProjectMutation, useSetMyUsernameMutation } from "../schemas";
 import Button from "../shared/Button";
@@ -8,8 +9,7 @@ export const MyProfile: React.FC = (props) => {
     const { data, loading, error, refetch } = useGetMeQuery();
     const [setMyUsername] = useSetMyUsernameMutation()
     const [createProjectMutation] = useCreateProjectMutation();
-    let titleRef = { value: '' }
-    let descriptionRef = { value: '' }
+    const navigate=useNavigate()
     return (
         <div className="my-profile">
             <h1>My Profile</h1>
@@ -36,15 +36,13 @@ export const MyProfile: React.FC = (props) => {
                 </div>
             </div>
 
-            <div className="profile-card">
-                <h2>Create Project</h2>
-                <Input description="Title" valueRef={titleRef} />
-                <Input description="Description" valueRef={descriptionRef} />
-                <Button onClick={async () => {
-                    const res = await createProjectMutation({ variables: { newProject: { name: titleRef.value, description: descriptionRef.value, languages: [] } } })
-                    alert("Created project with id: " + res.data?.createProject.id)
-                }}>Create Project</Button>
-            </div>
+            <Button onClick={async () => {
+                const res = await createProjectMutation({ variables: { newProject: { name: "My new project", description: "", languages: [] } } })
+                if (res.data?.createProject) {
+                    navigate(`/edit-project/${res.data.createProject.id}`)
+                }
+
+            }}>Create new Project</Button>
         </div>
     )
 
