@@ -35,7 +35,7 @@ const Input: React.FC<InputProps> = (props) => {
             if (e.key == "Enter") {
                 props.onEnter?.(e.currentTarget.value)
                 if (props.clearOnEnter) {
-                    e.currentTarget.value = ""
+                    setValue("")
                 }
             }
         }}
@@ -43,7 +43,7 @@ const Input: React.FC<InputProps> = (props) => {
             if (!props.enterOnUnfocus) return
             props.onEnter?.(e.currentTarget.value)
             if (props.clearOnEnter) {
-                e.currentTarget.value = ""
+                setValue("")
             }
         }
         }

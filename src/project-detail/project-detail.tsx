@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import { useGetMeWithoutLoginPromptQuery, useGetProjectByIdQuery } from '../schemas';
+import { Link, useNavigate } from 'react-router-dom';
+import { useGetMeWithoutLoginPromptQuery, useGetProjectByIdQuery, useWriteMessageToProjectIdMutation } from '../schemas';
 import ImageGallery from "react-image-gallery"
 import './project-detail.css'
 import "react-image-gallery/styles/css/image-gallery.css";
@@ -13,6 +13,8 @@ export type ProjectDetailProps = {
 const ProjectDetail: React.FC<ProjectDetailProps> = (props) => {
     const projectResult = useGetProjectByIdQuery({ variables: { id: props.id } });
     const meResult = useGetMeWithoutLoginPromptQuery();
+    const navigate = useNavigate();
+    const [writeMessageToProject] = useWriteMessageToProjectIdMutation()
     const config = useConfig()
     if (props.id == "") return <div></div>
     if (projectResult.loading) return <div className='project-detail'>Loading...</div>
@@ -24,7 +26,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = (props) => {
         }}>
             {config.view == "mobile" && <Button onClick={props.onBackClicked} >Back</Button>}
             <h1>{projectResult.data?.getProject?.name}</h1>
-            <ReactMarkdown >{projectResult.data?.getProject?.description||"(no description provided)"}</ReactMarkdown>
+            <ReactMarkdown >{projectResult.data?.getProject?.description || "(no description provided)"}</ReactMarkdown>
             {images && images.length > 0 ? <div >
                 <ImageGallery items={images.map(image => ({
                     original: image.url,
@@ -34,6 +36,13 @@ const ProjectDetail: React.FC<ProjectDetailProps> = (props) => {
             </div> : null}
             <p>Created by {projectResult.data?.getProject?.creator.username}</p>
             {meResult.data?.meIfLoggedIn && meResult.data?.meIfLoggedIn?.id == projectResult.data?.getProject?.creator.id ? <Link to={"/edit-project/" + props.id}>Edit</Link> : null}
+            <Button filled onClick={() => {
+                writeMessageToProject({ variables: { projectId: props.id, message: "Hi, I would like to connect!" } }).then(res => {
+                    if (res.data?.writeMessageToProject) {
+                        navigate("/messages")
+                    }
+                })
+            }}>Connect</Button>
         </div>
     );
 }

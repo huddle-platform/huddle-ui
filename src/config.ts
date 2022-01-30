@@ -18,7 +18,7 @@ const localConfig= {
     kratosUrl: 'http://localhost:8090',
 }
 
-export const clientConfig=localConfig
+export const clientConfig=productionConfig
 
 export const config:Config={
     clientConfig,

@@ -7,3 +7,10 @@
     max-height: 50vh;
     overflow-x: hidden;
 }
+div.chat-info{
+    background-color: white;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 15px;
+}

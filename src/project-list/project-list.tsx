@@ -37,7 +37,14 @@ const ProjectList: React.FC<ProjectListProps> = (props) => {
             }} />
         }
         return (
-            <div className="project-list" style={{ width: "100%" }}>
+            <div className="project-list" style={{ width: "100%" }} onScroll={(ev) => {
+                const distanceToBottom = ev.currentTarget.scrollHeight - ev.currentTarget.scrollTop - ev.currentTarget.offsetHeight;
+                const lastDistanceToBottom = ev.currentTarget.scrollHeight - lastScrollTop.current - ev.currentTarget.offsetHeight;
+                if (distanceToBottom < 100 && lastDistanceToBottom > 100) {
+                    lastScrollTop.current = ev.currentTarget.scrollTop;
+                    props.onScrollToBottom?.();
+                }
+            }} ref={scrollRef}>
                 {props.entries.map(entry => <ProjectListEntry {...entry} onClick={(id => {
                     setDetailID(id);
                 })} />)}

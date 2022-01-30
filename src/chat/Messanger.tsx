@@ -1,17 +1,18 @@
 import { TrafficOutlined } from "@mui/icons-material"
 import { useState } from "react"
-import { Chat } from "./Chat"
+import { Chat, ChatParticipant } from "./ChatList"
+import { UnifiedChat, UserChat } from "./Chat"
 import { ChatBubbleProps } from "./ChatBubble"
 import { ChatList } from "./ChatList"
 import "./messanger.css"
 export const Messanger: React.FC = props => {
-    const [chosenUserId, setChosenUserId] = useState<string>("")
+    const [chosenChat, setChosenChat] = useState<Chat | undefined>(undefined)
     return (
         <div className="messanger">
             <div className="chat-container">
-                <Chat withUserId={chosenUserId} />
+                <UnifiedChat chat={chosenChat} />
             </div>
-            <ChatList onChatSelected={setChosenUserId} />
+            <ChatList onChatSelected={setChosenChat} />
         </div>
     )
 }
