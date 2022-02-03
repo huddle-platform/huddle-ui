@@ -17,7 +17,7 @@ export const ProjectEditor: React.FC = props => {
     const [description, setDescription] = useState<string | null>(localStorage.getItem("description#" + projectId))
     const projectData = useGetProjectByIdQuery({
         variables: { id: projectId || "" }, onCompleted: (data) => {
-            setDescription(data?.getProject?.description || null)
+            setDescription(data?.getProject?.description || "")
         }
     })
     const [removeImage] = useRemoveImageMutation()

@@ -10,11 +10,14 @@
 #authentication-manager-popup>div{
   margin-left: auto;
   margin-right: auto;
-  width: 350px;
+  max-width: 350px;
+  width: 80vw;
   padding: 20px;
   margin-top: 30px;
   border-radius: 10px;
   background-color: #EAF5FF;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 #authentication-manager-popup>br{
   display: none;

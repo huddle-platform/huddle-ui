@@ -17,9 +17,14 @@
   flex-grow: 1;
   text-align: right;
   margin-top: 25px;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 .huddle-navigator > .huddle-navigator-right > a {
   margin: 25px;
   position: relative;
   margin-left: 0px;
+}
+.huddle-navigator > .huddle-navigator-right::-webkit-scrollbar {
+  display: none;
 }

@@ -16,6 +16,7 @@ import { Observable, useApolloClient } from '@apollo/client';
 import Button from '../shared/Button';
 import Input from '../shared/Input';
 import { clientConfig } from "../config"
+import { Link } from 'react-router-dom';
 export const AuthenticationManagerPopup: React.FC<{ a: Observable<AuthenticationRequest> }> = (props) => {
     const client = useApolloClient()
     const [authRequests, setAuthRequests] = useState<AuthenticationRequest[]>([])
@@ -113,7 +114,7 @@ export const AuthenticationManagerPopup: React.FC<{ a: Observable<Authentication
                         alertUnknownError(error)
                     }
                 }}>login</Button>
-                <br />
+                <p>By registering, you consent to the <Link target="_blank"  to="/about">data we collect and our terms of use</Link>. </p>
                 <Button onClick={async () => {
                     try {
                         console.log('trying to recover account');

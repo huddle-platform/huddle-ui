@@ -8,6 +8,10 @@ import { MyProfile } from './profile/MyProfile';
 import { Messanger } from './chat/Messanger';
 import { ProjectEditor } from './projectEditor/ProjectEditor';
 import { RecoveryManager } from './authentication/RecoveryManager';
+import React from 'react';
+import About from './about/About';
+//const About = React.lazy(() => import('./about/About'));
+
 const App: React.FC = () => {
   return (
     <div>
@@ -18,6 +22,7 @@ const App: React.FC = () => {
         <Route path="edit-project/:id" element={<ProjectEditor />} />
         <Route path="messages" element={<Messanger />} />
         <Route path="recovery" element={<RecoveryManager />} />
+        <Route path="about" element={<About />} />
         <Route path="*" element={<HomePage />} />
       </Routes>
     </div>

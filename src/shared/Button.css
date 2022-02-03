@@ -7,7 +7,8 @@
     cursor: pointer;
     text-decoration: none;
     margin: 20px;
-    font-size: 27px;
+    font-size: 25px;
+    white-space: nowrap;
 }
 .huddle-button-filled{
     background-color: #0066FF;

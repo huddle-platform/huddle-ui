@@ -17,8 +17,8 @@ type InputProps = {
 
 
 const Input: React.FC<InputProps> = (props) => {
-    const [value, setValue] = React.useState(props.initialValue || "");
-    if(props.initialValue&&value==""){
+    const [value, setValue] = React.useState(props.initialValue);
+    if (props.initialValue && value === undefined) {
         setValue(props.initialValue);
     }
     return (<input style={props.style} className="huddle-input" placeholder={props.description} type={props.type} value={value}
