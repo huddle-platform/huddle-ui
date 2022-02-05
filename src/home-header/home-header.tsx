@@ -1,6 +1,7 @@
 import './home-header.css'
 import React, { useRef, useLayoutEffect, useState, useEffect } from "react";
 import FilterListIcon from '@mui/icons-material/FilterList';
+import SearchField from './search-field/search-field';
 
 
 const CategoryButton = ({ category = "", activated = false, onClick = (() => { return }) }) => {
@@ -27,7 +28,7 @@ const CategoryList: React.FC<CategoryListProps> = (props) => {
     );
 }
 
-const HomeHeader: React.FC<{ onCategoryChange?: (newCategory: string) => void }> = (props) => {
+const HomeHeader: React.FC<{ onCategoryChange?: (newCategory: string) => void, onStringChange?: (newString: string) => void}> = (props) => {
     const targetRef = useRef();
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
     const [initVal, setInitVal] = useState(0);
@@ -57,10 +58,12 @@ const HomeHeader: React.FC<{ onCategoryChange?: (newCategory: string) => void }>
 
             <h1 className="home-header1" style={{ opacity: opac }}>Find your next</h1>
             <h1 className="home-header2" style={{ opacity: opac }}>student project</h1>
+            <></>
             <button className="home-filter-button">
                 <FilterListIcon className="home-filter-icon" ></FilterListIcon>
                 <span className="home-filter-button-text">Filter</span>
             </button>
+            <SearchField onChange={props.onStringChange} />
             <CategoryList categories={[
                 "All",
                 "Social",

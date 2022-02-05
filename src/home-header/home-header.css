@@ -34,6 +34,7 @@ h1.home-header2 {
 }
 
 .home-filter-button {
+  z-index: 10;
   background: #fff3d6;
   border: 2px solid #ffb800;
   box-sizing: border-box;

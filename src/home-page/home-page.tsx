@@ -1,5 +1,5 @@
 import 'react'
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import useConfig from '../config';
 import HomeHeader from '../home-header/home-header';
 import ProjectList from '../project-list/project-list';
@@ -7,7 +7,9 @@ import { useSearchProjectsQuery } from '../schemas';
 import "./home-page.css"
 
 function HomePage() {
-    const projectData = useSearchProjectsQuery({ variables: { searchString: "" ,limit:10} })
+    //const [searchString, setSearchString] = useState("");
+    //console.log(searchString);
+    const projectData = useSearchProjectsQuery({ variables: { searchString: "", limit:10} })
     const config = useConfig()
     const lastRefetch = useRef(-1)
     const onScrollToBottom = () => {
@@ -41,7 +43,9 @@ function HomePage() {
     return (
         <div style={{ position: "relative" }}>
             {/* {data?.messages.map(message => (<p>ID:{message.id}, Message:{message.message}</p>))} */}
-            <HomeHeader />
+            <HomeHeader onStringChange={(searchString: string) => {
+                projectData.refetch({searchString: searchString, limit:10});
+            }}/>
             <div className='home-bottom'>
                 <ProjectList entries={entries} onScrollToBottom={onScrollToBottom} />
             </div>
