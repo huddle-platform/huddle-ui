@@ -6,8 +6,9 @@
     height: 56px;
     cursor: pointer;
     text-decoration: none;
-    margin: 10px;
-    font-size: 27px;
+    margin: 20px;
+    font-size: 25px;
+    white-space: nowrap;
 }
 .huddle-button-filled{
     background-color: #0066FF;

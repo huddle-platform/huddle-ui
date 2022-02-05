@@ -17,8 +17,8 @@ type InputProps = {
 
 
 const Input: React.FC<InputProps> = (props) => {
-    const [value, setValue] = React.useState(props.initialValue || "");
-    if(props.initialValue&&value==""){
+    const [value, setValue] = React.useState(props.initialValue);
+    if (props.initialValue && value === undefined) {
         setValue(props.initialValue);
     }
     return (<input style={props.style} className="huddle-input" placeholder={props.description} type={props.type} value={value}
@@ -35,7 +35,7 @@ const Input: React.FC<InputProps> = (props) => {
             if (e.key == "Enter") {
                 props.onEnter?.(e.currentTarget.value)
                 if (props.clearOnEnter) {
-                    e.currentTarget.value = ""
+                    setValue("")
                 }
             }
         }}
@@ -43,7 +43,7 @@ const Input: React.FC<InputProps> = (props) => {
             if (!props.enterOnUnfocus) return
             props.onEnter?.(e.currentTarget.value)
             if (props.clearOnEnter) {
-                e.currentTarget.value = ""
+                setValue("")
             }
         }
         }

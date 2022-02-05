@@ -16,10 +16,12 @@ div.my-profile-my-projects-container{
   position: relative;
 }
 div.profile-card{
+  margin: auto;
   margin-top: 30px;
   background-color: white;
   border-radius: 15px;
   padding: 20px;
+  max-width: 1000px;
 }
 div.profile-card>h2{
   text-align: center;

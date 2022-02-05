@@ -1,10 +1,12 @@
 import { HttpLink, ApolloClient, InMemoryCache, ApolloLink, Observable } from "@apollo/client";
+import { offsetLimitPagination } from "@apollo/client/utilities";
 import PushStream from "zen-push"
 import { AuthenticationRequest } from "./authentication/authenticationObserbale";
+import {clientConfig}  from "./config";
+import { StrictTypedTypePolicies } from "./schemas";
 
 const endpointLink = new HttpLink({
-    uri: 'https://huddle.ridilla.eu/api/query',
-    //uri: 'http://localhost:8080/api/query',
+    uri: clientConfig.gqlUrl,
     credentials: "include"
 });
 export const authenticationStream = new PushStream<AuthenticationRequest>();
@@ -48,9 +50,15 @@ const LoginLink = new ApolloLink((operation, forward) => {
         });
     });
 });
-
+const typePolicies: StrictTypedTypePolicies={
+    Query:{
+        fields:{
+            searchProjects:offsetLimitPagination()
+        }
+    }
+}
 export const client = new ApolloClient({
     // uri: 'https://huddle.ridilla.eu/api/query',
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({typePolicies}),
     link: LoginLink
 });

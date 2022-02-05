@@ -2,6 +2,8 @@ query getMe {
   me {
     email
     username
+    name
+    id
     createdProjects {
       name
       description
@@ -9,7 +11,7 @@ query getMe {
     }
   }
 }
-query getMeWithoutLoginPrompt{
+query getMeWithoutLoginPrompt {
   meIfLoggedIn {
     email
     username
@@ -21,14 +23,31 @@ mutation createProject($newProject: NewProjectInput!) {
     id
   }
 }
+fragment all on ChatParticipant {
+  user {
+    id
+    username
+    name
+  }
+  project {
+    id
+    name
+  }
+}
 
+fragment allMetadata on Chat {
+  me
+  p1 {
+    ...all
+  }
+  p2 {
+    ...all
+  }
+}
 query myChats {
   chats {
-    other{
-      id
-      username
-    }
-    messages(count:1) {
+    ...allMetadata
+    messages(count: 1) {
       author
       content
       time
@@ -37,66 +56,51 @@ query myChats {
 }
 
 mutation writeMessageToUserId($userId: ID!, $message: String!) {
-    writeMessageToUser(userId:$userId,content: $message)
+  writeMessageToUser(userId: $userId, content: $message)
 }
+
+mutation writeMessageToProjectId($projectId: ID!, $message: String!) {
+  writeMessageToProject(projectId: $projectId, content: $message)
+}
+
+mutation writeProjectMessageToUserId(
+  $projectId: ID!
+  $userId: ID!
+  $message: String!
+) {
+  projectMutation(id: $projectId) {
+    writeMessageToUser(userId: $userId, content: $message)
+  }
+}
+
 query getUserIdByUsername($username: String!) {
   getUserByUsername(username: $username) {
     id
+    username
+    name
   }
 }
-query getChatWithUserId($userId: ID!, $start: Int!, $count: Int!) {
-  getChatById(withUserId: $userId) {
-    messages(start: $start, count: $count) {
+query getChatWithUserId($userId: ID!, $until: Time, $count: Int!) {
+  getChatByUserId(withUserId: $userId) {
+    messages(until: $until, count: $count) {
       author
       content
       time
     }
-    other{
-      username
+    ...allMetadata
+  }
+}
+query getChatWithProjectId($projectId: ID!, $until: Time, $count: Int!) {
+  getChatByProjectId(withProjectId: $projectId) {
+    messages(until: $until, count: $count) {
+      author
+      content
+      time
     }
+    ...allMetadata
   }
 }
 
 mutation setMyUsername($username: String!) {
-  setMyUsername(username: $username) 
-}
-query getProjectById($id: ID!) {
-  getProject(id: $id) {
-    name
-    description
-    creator {
-      username
-      id
-    }
-    participants {
-      username
-    }
-    languages
-  }
-}
-
-query searchProjects($searchString:String!) {
-  searchProjects(searchString: $searchString) {
-    id
-    name
-    description
-    languages
-  }
-}
-
-mutation updateProjectName($projectId:ID!, $newName:String!){
-  projectMutation(id:$projectId){
-    updateName(newName:$newName)
-  }
-}
-
-mutation updateProjectDescription($projectId:ID!, $newDescription:String!){
-  projectMutation(id:$projectId){
-    updateDescription(newDescription:$newDescription)
-  }
-}
-mutation deleteProject($projectId:ID!){
-  projectMutation(id:$projectId){
-    deleteProject
-  }
+  setMyUsername(username: $username)
 }

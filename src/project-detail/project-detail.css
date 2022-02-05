@@ -1,8 +1,8 @@
 div.project-detail {
     float: right;
     overflow-y: auto;
-    width: 60%;
     vertical-align: middle;
     box-sizing: border-box;
     height: 100%;
+    padding: 10px;
 }

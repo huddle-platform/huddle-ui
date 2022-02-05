@@ -103,7 +103,14 @@ h1.home-header2 {
 }
 
 .home-header-category-list {
-  margin-left: 30vh;
+  margin-left: 40vw;
+  width: 57vw;
   position: absolute;
   bottom: 0;
+  white-space: nowrap;
+  overflow-x: auto;
+  scrollbar-width: 5px;
+}
+.home-header-category-list::-webkit-scrollbar {
+  display: none;
 }

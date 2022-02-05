@@ -1,0 +1,93 @@
+query getProjectById($id: ID!) {
+  getProject(id: $id) {
+    name
+    description
+    creator {
+      username
+      id
+    }
+    participants {
+      username
+    }
+    languages
+    images {
+      url
+      id
+      description
+      priority
+      createdAt
+    }
+  }
+}
+
+query searchProjects(
+  $searchString: String!
+  $offset: Int! = 0
+  $limit: Int! = 20
+) {
+  searchProjects(
+    searchString: $searchString
+    offset: $offset
+    countLimit: $limit
+  ) {
+    id
+    name
+    description
+    languages
+    createdAt
+  }
+}
+
+mutation updateProjectName($projectId: ID!, $newName: String!) {
+  projectMutation(id: $projectId) {
+    updateName(newName: $newName)
+  }
+}
+
+mutation updateProjectDescription($projectId: ID!, $newDescription: String!) {
+  projectMutation(id: $projectId) {
+    updateDescription(newDescription: $newDescription)
+  }
+}
+mutation deleteProject($projectId: ID!) {
+  projectMutation(id: $projectId) {
+    deleteProject
+  }
+}
+mutation addImage($projectId: ID!, $newImage: NewImageInput!) {
+  projectMutation(id: $projectId) {
+    addImage(newImage: $newImage)
+  }
+}
+mutation removeImage($projectId: ID!, $imageId: ID!) {
+  projectMutation(id: $projectId) {
+    removeImage(id: $imageId)
+  }
+}
+mutation updateImageDescription(
+  $projectId: ID!
+  $imageId: ID!
+  $newDescription: String!
+) {
+  projectMutation(id: $projectId) {
+    updateImageDescription(id: $imageId, newDescription: $newDescription)
+  }
+}
+
+query getChatWithUserAsProject(
+  $projectId: ID!
+  $userId: ID!
+  $until: Time
+  $count: Int!
+) {
+  getProject(id: $projectId) {
+    getChatByUserId(withUserId: $userId) {
+      ...allMetadata
+      messages(until: $until, count: $count) {
+        author
+        content
+        time
+      }
+    }
+  }
+}
