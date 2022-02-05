@@ -17,6 +17,7 @@ query getProjectById($id: ID!) {
       priority
       createdAt
     }
+    tags
   }
 }
 
@@ -24,11 +25,13 @@ query searchProjects(
   $searchString: String!
   $offset: Int! = 0
   $limit: Int! = 20
+  $options: SearchOptions={}
 ) {
   searchProjects(
     searchString: $searchString
     offset: $offset
-    countLimit: $limit
+    countLimit: $limit,
+    options: $options
   ) {
     id
     name

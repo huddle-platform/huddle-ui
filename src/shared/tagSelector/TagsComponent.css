@@ -1,0 +1,25 @@
+.tag-editor-list> .tag-text {
+    font-weight: 500;
+    padding: 2px 15px;
+    border-radius: 17px;
+    margin: 5px;
+    font-size: 12px;
+    cursor: pointer;
+    background-color: rgba(206, 204, 204, 0.253);
+    height: fit-content;
+}
+.tag-editor-list button{
+    font-size: 10px;
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+}
+.tag-editor-list input{
+    min-width: 20px;
+    width: auto;
+    border: 0;
+    background-color: transparent;
+}
+.tag-editor-list{
+    margin:40px;
+}

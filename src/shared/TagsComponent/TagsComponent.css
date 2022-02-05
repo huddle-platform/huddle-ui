@@ -1,0 +1,14 @@
+.tag-list .tag-text {
+    font-weight: 500;
+    padding: 2px 15px;
+    border-radius: 17px;
+    margin-right: 2px;
+    font-size: 12px;
+    cursor: pointer;
+    background-color: rgba(206, 204, 204, 0.253);
+}
+
+.tag-list .selected{
+    background-color: var(--default-color);
+    color: white;
+}

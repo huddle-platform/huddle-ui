@@ -6,6 +6,7 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import useConfig from '../config';
 import Button from '../shared/Button';
 import ReactMarkdown from 'react-markdown';
+import TagsComponent from '../shared/TagsComponent/TagsComponent';
 export type ProjectDetailProps = {
     id: string
     onBackClicked?: () => void
@@ -26,6 +27,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = (props) => {
         }}>
             {config.view == "mobile" && <Button onClick={props.onBackClicked} >Back</Button>}
             <h1>{projectResult.data?.getProject?.name}</h1>
+            <TagsComponent tags={projectResult.data?.getProject?.tags||["...still loading tags"]}/>
             <ReactMarkdown >{projectResult.data?.getProject?.description || "(no description provided)"}</ReactMarkdown>
             {images && images.length > 0 ? <div >
                 <ImageGallery items={images.map(image => ({
