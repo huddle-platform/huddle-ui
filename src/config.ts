@@ -18,7 +18,12 @@ const localConfig= {
     kratosUrl: 'http://localhost:8090',
 }
 
-export const clientConfig=productionConfig
+const peterConfig = {
+    gqlUrl:'https://huddle.hsg.fs.tum.de/api/query',
+    kratosUrl:'/.ory/kratos',
+}
+
+export const clientConfig=peterConfig
 
 export const config:Config={
     clientConfig,
