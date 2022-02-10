@@ -23,14 +23,18 @@ const peterConfig = {
     kratosUrl:'/.ory/kratos',
 }
 
-export const clientConfig=peterConfig
-
-export const config:Config={
-    clientConfig,
-    view:/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)?"mobile":"desktop"
-}
+export const clientConfig=productionConfig
 
 const configPushStream=new PushStream<Config>()
+const updateConfig:()=>Config=()=>({
+    clientConfig,
+    view:/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)?"mobile":"desktop"
+})
+export let config:Config=updateConfig()
+window.addEventListener("resize",()=>{
+    config=updateConfig()
+    configPushStream.next(config)
+})
 
 const useConfig=()=>{
     const [c,setConfig]=useState<Config>(config)

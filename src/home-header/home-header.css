@@ -42,8 +42,10 @@ h1.home-header2 {
   display: inline;
   padding: 0px 17px 3px 17px;
   position: absolute;
-  top: 38vh;
-  left: 10vh;
+  bottom: 0;
+  left: 50px;
+  height: 60px;
+  transform: translateY(30px);
 }
 
 .home-filter-button-text {
@@ -104,8 +106,6 @@ h1.home-header2 {
 }
 
 .home-header-category-list {
-  margin-left: 40vw;
-  width: 57vw;
   position: absolute;
   bottom: 0;
   white-space: nowrap;
@@ -114,4 +114,12 @@ h1.home-header2 {
 }
 .home-header-category-list::-webkit-scrollbar {
   display: none;
+}
+
+.home-header-mobile {
+  position: relative;
+  margin: auto;
+  padding: 30px;
+  padding-bottom: 70px;
+  text-align: center;
 }

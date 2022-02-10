@@ -1,19 +1,14 @@
 .searchFieldContainer {
-    position: absolute;
     text-align: center;
-    top: 33.5vh;
-    left: 30vh;
     z-index: 10;
 }
 
 .searchField {
-    height: auto;
+
     text-align: center;
     border-radius: 25px;
-    background-color: #dae8fa;
+    background-color: white;
     display:inline-block;
-    /* box-shadow: 0px 0px 10px 10px  rgba(0, 0, 0, 0.1); */
-    margin-top: 40px;
 }
 
 .searchField input {
@@ -21,10 +16,10 @@
     border:none;
     padding: 10px 10px;
     font-size: 18px;
-    width: var(--search-width);
+    width: 180px;
     font-weight: 500;
     border-radius: 20px;
-    background-color: #dae8fa;
+    background-color: white;
     color: black;
 }
 

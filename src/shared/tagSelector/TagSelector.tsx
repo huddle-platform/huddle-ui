@@ -3,7 +3,9 @@ import React, { FC, useState } from 'react';
 import './TagsComponent.css';
 
 type TagEditorData = {
-    onUpdate: (newTags: string[]) => void
+    tags: string[]
+    onNewTag: (newTag: string) => void
+    onDeleteTag: (tag: string) => void
 }
 
 type TagEditorProps = {
@@ -18,13 +20,11 @@ const TagEditor: FC<TagEditorProps> = props => {
 }
 
 const TagSelector: FC<TagEditorData> = (props) => {
-    const [tags, setTags] = useState<string[]>([]);
+    const tags = props.tags;
     const onFinishEditing = (e: React.SyntheticEvent<HTMLInputElement>) => {
         if (e.currentTarget.value !== "") {
-            const newTags = tags.concat([e.currentTarget.value]);
+            props.onNewTag(e.currentTarget.value)
             e.currentTarget.value = "";
-            props.onUpdate(newTags);
-            setTags(newTags);
         }
     }
     return (
@@ -32,14 +32,12 @@ const TagSelector: FC<TagEditorData> = (props) => {
             {tags.map((tag) => (
                 <TagEditor
                     onDelete={() => {
-                        const newTags = tags.filter(v => v !== tag)
-                        props.onUpdate(newTags);
-                        setTags(newTags);
+                        props.onDeleteTag(tag);
                     }} value={tag} />)
             )
             }
             < span key={"&"} className="tag-text">
-                <input placeholder="add field you are interested in" onBlur={onFinishEditing} onKeyDown={(e) => {
+                <input placeholder="Add a tag" onBlur={onFinishEditing} onKeyDown={(e) => {
                     if (e.key === "Enter") {
                         onFinishEditing(e);
                     }

@@ -1,13 +1,14 @@
 
 import loadable from '@loadable/component';
-const MDEditor=loadable(()=>import('@uiw/react-md-editor'))
+const MDEditor = loadable(() => import('@uiw/react-md-editor'))
 import { useState } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
-import { useAddImageMutation, useDeleteProjectMutation, useGetProjectByIdQuery, useRemoveImageMutation, useUpdateImageDescriptionMutation, useUpdateProjectDescriptionMutation, useUpdateProjectNameMutation } from "../schemas"
+import { useAddImageMutation, useAddProjectTagMutation, useDeleteProjectMutation, useGetProjectByIdQuery, useRemoveImageMutation, useRemoveProjectTagMutation, useUpdateImageDescriptionMutation, useUpdateProjectDescriptionMutation, useUpdateProjectNameMutation } from "../schemas"
 import Button from "../shared/Button"
 import Input from "../shared/Input"
 import "./projectEditor.css"
 import useConfig from "../config";
+import TagSelector from '../shared/tagSelector/TagSelector';
 
 
 export const ProjectEditor: React.FC = props => {
@@ -20,6 +21,8 @@ export const ProjectEditor: React.FC = props => {
             setDescription(data?.getProject?.description || "")
         }
     })
+    const [removeTag] = useRemoveProjectTagMutation();
+    const [addTag] = useAddProjectTagMutation();
     const [removeImage] = useRemoveImageMutation()
     const [updateImageDescription] = useUpdateImageDescriptionMutation()
     const [addImage] = useAddImageMutation()
@@ -32,8 +35,8 @@ export const ProjectEditor: React.FC = props => {
     if (!projectId) {
         return <Link to="/">Invalid URL! Go home</Link>
     }
-    if (projectData.data) {
-        <Link to="/">Invalid Project ID! Go home</Link>
+    if (!projectData.data?.getProject) {
+        return <Link to="/">Invalid Project ID! Go home</Link>
     }
     return (
         <div className="project-editor">
@@ -79,44 +82,70 @@ export const ProjectEditor: React.FC = props => {
                 }}>Save</Button>
 
             </div>}
+            <div className="project-editor-component">
+                <h2>Tags</h2>
+                <TagSelector tags={projectData.data.getProject.tags} onNewTag={(newTag) => {
+                    addTag({ variables: { projectId: projectId, tag: newTag } })
+                        .then((res) => {
+                            if (res.data?.projectMutation?.addTag) {
+                                projectData.refetch()
+                            } else {
+                                alert(res.errors?.join(""))
+                            }
+                        }).catch((r) => {
+                            alert("Could not add tag")
+                        })
+                }} onDeleteTag={(toDelete) => {
+                    removeTag({ variables: { projectId: projectId, tag: toDelete } })
+                        .then((res) => {
+                            if (res.data?.projectMutation?.removeTag) {
+                                projectData.refetch()
+                            } else {
+                                alert(res.errors?.join(""))
+                            }
+                        }).catch((r) => {
+                            alert("Could not add tag")
+                        })
+                }} />
+            </div>
             {projectData.data?.getProject?.images[0] && <div className="project-editor-component">
                 <h2>Images</h2>
                 <div className="image-list">
-                {projectData.data?.getProject?.images.map(image => {
-                    return (
-                        <div className="image-editor">
-                            <img src={image.url} />
-                            <p><Input description="Update Image Description" initialValue={image.description || undefined} onEnter={(newDescription) => {
-                                updateImageDescription({ variables: { projectId: projectId, newDescription: newDescription, imageId: image.id } })
-                                    .then((res) => {
-                                        if (res.data?.projectMutation?.updateImageDescription) {
-                                            alert("Successfully updated image description!")
-                                        } else {
-                                            alert(res.errors?.join(""))
-                                        }
-                                        projectData.refetch()
-                                    }).catch((r) => {
-                                        alert("Could not update description")
-                                    })
-                            }} /></p>
-                            <p>
-                                <Button onClick={() => {
-                                    removeImage({ variables: { projectId: projectId, imageId: image.id } })
+                    {projectData.data?.getProject?.images.map(image => {
+                        return (
+                            <div className="image-editor">
+                                <img src={image.url} />
+                                <p><Input description="Update Image Description" initialValue={image.description || undefined} onEnter={(newDescription) => {
+                                    updateImageDescription({ variables: { projectId: projectId, newDescription: newDescription, imageId: image.id } })
                                         .then((res) => {
-                                            if (res.data?.projectMutation?.removeImage) {
-                                                alert("Successfully removed image!")
+                                            if (res.data?.projectMutation?.updateImageDescription) {
+                                                alert("Successfully updated image description!")
                                             } else {
                                                 alert(res.errors?.join(""))
                                             }
                                             projectData.refetch()
                                         }).catch((r) => {
-                                            alert("Could not remove image")
+                                            alert("Could not update description")
                                         })
+                                }} /></p>
+                                <p>
+                                    <Button onClick={() => {
+                                        removeImage({ variables: { projectId: projectId, imageId: image.id } })
+                                            .then((res) => {
+                                                if (res.data?.projectMutation?.removeImage) {
+                                                    alert("Successfully removed image!")
+                                                } else {
+                                                    alert(res.errors?.join(""))
+                                                }
+                                                projectData.refetch()
+                                            }).catch((r) => {
+                                                alert("Could not remove image")
+                                            })
 
-                                }} >Remove Image</Button>
-                            </p>
-                        </div>)
-                })}
+                                    }} >Remove Image</Button>
+                                </p>
+                            </div>)
+                    })}
                 </div>
             </div>}
             <p className="project-editor-component">
@@ -143,7 +172,7 @@ export const ProjectEditor: React.FC = props => {
                 }} >Add Image</Button>}
             </p>
 
-            <p style={{textAlign:"center"}}><Button onClick={() => {
+            <p style={{ textAlign: "center" }}><Button onClick={() => {
                 deleteProject({ variables: { projectId: projectId } })
 
                     .then((res) => {

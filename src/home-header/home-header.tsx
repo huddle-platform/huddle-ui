@@ -2,6 +2,8 @@ import './home-header.css'
 import React, { useRef, useLayoutEffect, useState, useEffect } from "react";
 import FilterListIcon from '@mui/icons-material/FilterList';
 import SearchField from './search-field/search-field';
+import useConfig from '../config';
+import { useAvailableTagsQuery } from '../schemas';
 
 
 const CategoryButton = ({ category = "", activated = false, onClick = (() => { return }) }) => {
@@ -11,32 +13,49 @@ const CategoryButton = ({ category = "", activated = false, onClick = (() => { r
         </div>
     );
 }
+function capitalizeFirstLetter(string = "") {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 type CategoryListProps = {
-    categories: string[]
-    onCategoryChange?: (newCategory: string) => void
+    onCategoryChange?: (newCategory?: string) => void,
+    left: number
 }
 const CategoryList: React.FC<CategoryListProps> = (props) => {
     const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0)
+    const tagsData = useAvailableTagsQuery()
+    const categoriesWithAll = tagsData.data ? ["All", ...tagsData.data.availableTags.map(t => capitalizeFirstLetter(t.name))] : ["All"]
     return (
-        <div className="home-header-category-list">
-            {props.categories.map((c, i) => (<CategoryButton category={c} onClick={() => {
+        <div className="home-header-category-list" style={{
+            left: props.left,
+            width: `calc(100vw - ${props.left + 10}px)`
+        }}>
+            {categoriesWithAll.map((c, i) => (<CategoryButton category={c} onClick={() => {
                 setSelectedCategoryIndex(i)
-                props.onCategoryChange?.(c)
+                if (c == "All") {
+                    props.onCategoryChange?.(undefined)
+                } else {
+                    props.onCategoryChange?.(c.toLowerCase())
+                }
             }} activated={i == selectedCategoryIndex} />))}
         </div>
     );
 }
-
-const HomeHeader: React.FC<{ onCategoryChange?: (newCategory: string) => void, onStringChange?: (newString: string) => void}> = (props) => {
+type HeaderProps = {
+    onCategoryChange?: (newCategory?: string) => void,
+    onSearchStringChange?: (newSearch: string) => void
+}
+const HomeHeaderDesktop: React.FC<HeaderProps> = (props) => {
     const targetRef = useRef();
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
     const [initVal, setInitVal] = useState(0);
     const [height, setHeight] = useState({});
     const [scrollPosition, setScrollPosition] = useState(0);
+    const [scrollPercentage, setScrollPercentage] = useState(0)
 
     const handleScroll = () => {
         const position = window.pageYOffset;
+        setScrollPercentage(window.scrollY / (document.body.scrollHeight - window.innerHeight));
         setScrollPosition(position);
     };
 
@@ -48,8 +67,8 @@ const HomeHeader: React.FC<{ onCategoryChange?: (newCategory: string) => void, o
         };
     }, []);
 
-    const opac = Math.max(1.0 - scrollPosition / 200.0, 0.0)
-    const rotLogo = scrollPosition;
+    const opac = Math.max(1.0 - scrollPercentage, 0.0)
+    const rotLogo = scrollPercentage * 100;
 
     return (
         <div className="home-header">
@@ -63,18 +82,34 @@ const HomeHeader: React.FC<{ onCategoryChange?: (newCategory: string) => void, o
                 <FilterListIcon className="home-filter-icon" ></FilterListIcon>
                 <span className="home-filter-button-text">Filter</span>
             </button>
-            <SearchField onChange={props.onStringChange} />
-            <CategoryList categories={[
-                "All",
-                "Social",
-                "Tinker",
-                "Code",
-                "Design",
-                "Sports",
-                "Outdoors"
-            ]} onCategoryChange={props.onCategoryChange} />
+
+            <SearchField onChange={props.onSearchStringChange} style={{
+                bottom: (15 * scrollPercentage + 300 * (1 - scrollPercentage)),
+                position: "absolute",
+                left: 180
+            }} />
+            <CategoryList onCategoryChange={props.onCategoryChange} left={600} />
         </div>
     );
 }
 
+export const HomeHeaderMobile: React.FC<HeaderProps> = props => {
+    return (
+        <div className='home-header-mobile'>
+            <h1>Find your next student project</h1>
+            <SearchField onChange={props.onSearchStringChange} />
+            <CategoryList onCategoryChange={props.onCategoryChange} left={10} />
+        </div>
+    )
+}
+
+const HomeHeader: React.FC<HeaderProps> = props => {
+    const config = useConfig()
+    switch (config.view) {
+        case 'desktop':
+            return <HomeHeaderDesktop {...props} />
+        case 'mobile':
+            return <HomeHeaderMobile {...props} />
+    }
+}
 export default HomeHeader;

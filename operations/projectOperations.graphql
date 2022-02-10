@@ -25,12 +25,12 @@ query searchProjects(
   $searchString: String!
   $offset: Int! = 0
   $limit: Int! = 20
-  $options: SearchOptions={}
+  $options: SearchOptions = {}
 ) {
   searchProjects(
     searchString: $searchString
     offset: $offset
-    countLimit: $limit,
+    countLimit: $limit
     options: $options
   ) {
     id
@@ -92,5 +92,24 @@ query getChatWithUserAsProject(
         time
       }
     }
+  }
+}
+
+query availableTags($limit: Int! = 4, $offset: Int! = 0) {
+  availableTags(limit: $limit, offset: $offset) {
+    name
+    count
+  }
+}
+
+mutation addProjectTag($projectId: ID!, $tag: String!) {
+  projectMutation(id: $projectId) {
+    addTag(tag: $tag)
+  }
+}
+
+mutation removeProjectTag($projectId: ID!, $tag: String!) {
+  projectMutation(id: $projectId) {
+    removeTag(tag: $tag)
   }
 }
