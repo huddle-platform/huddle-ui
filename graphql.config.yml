@@ -1,0 +1,4 @@
+schema:
+  - ./graph/schema/*.graphqls
+  - ./main.graphqls
+documents: ./operations/*.graphqls
