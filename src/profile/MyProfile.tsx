@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
+import { getAPI } from "../authentication/AuthenticationManagerPopup";
 import ProjectList from "../project-list/project-list";
-import { useGetMeQuery, useCreateProjectMutation, useSetMyUsernameMutation } from "../schemas";
+import { useGetMeQuery, useCreateProjectMutation, useSetMyUsernameMutation, useSetMyDescriptionMutation } from "../schemas";
 import Button from "../shared/Button";
 import Input from "../shared/Input";
 import "./myProfile.css"
@@ -9,6 +10,7 @@ export const MyProfile: React.FC = (props) => {
     const { data, loading, error, refetch } = useGetMeQuery();
     const [setMyUsername] = useSetMyUsernameMutation()
     const [createProjectMutation] = useCreateProjectMutation();
+    const [setMyDescription] = useSetMyDescriptionMutation();
     const navigate = useNavigate()
     return (
         <div className="my-profile">
@@ -24,6 +26,29 @@ export const MyProfile: React.FC = (props) => {
                         }
                     })
                 }} /></p>
+                <h4>About me</h4>
+                {data?.me&&<Input multiline initialValue={data.me.description} onEnter={(newDescription) => {
+                    setMyDescription({ variables: { description: newDescription } }).then((res) => {
+                        if (res.data?.setMyDescription) {
+                            refetch()
+                        } else {
+                            alert("Unable to set description")
+                        }
+                    })
+                }} />}
+                <p>Update password: <Input type="password" onEnter={async (newPassword) => {
+                    const api = await getAPI()
+                    const settingsFlowData = await api.initializeSelfServiceSettingsFlowForBrowsers()
+                    const csrf_token = (settingsFlowData.data.ui.nodes[0].attributes as { value: string }).value;
+                    const settingsFlowId = settingsFlowData.data.id;
+                    const submitSettingsFlowResponse = await api.submitSelfServiceSettingsFlow(settingsFlowId, undefined, {
+                        method: "password",
+                        password: newPassword,
+                        csrf_token: csrf_token
+                    })
+                    alert("Password successfully updated")
+                    console.log(submitSettingsFlowResponse)
+                }} description="Enter new password + Enter" /></p>
             </div>
             <div className="profile-card">
                 <h2>My projects</h2>

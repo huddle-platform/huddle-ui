@@ -17,6 +17,9 @@ query getProjectById($id: ID!) {
       priority
       createdAt
     }
+    location {
+      name
+    }
     tags
   }
 }
@@ -38,6 +41,9 @@ query searchProjects(
     description
     languages
     createdAt
+    location {
+      name
+    }
   }
 }
 
@@ -50,6 +56,11 @@ mutation updateProjectName($projectId: ID!, $newName: String!) {
 mutation updateProjectDescription($projectId: ID!, $newDescription: String!) {
   projectMutation(id: $projectId) {
     updateDescription(newDescription: $newDescription)
+  }
+}
+mutation updateProjectLocation($projectId: ID!, $newLocation: LocationInput!) {
+  projectMutation(id: $projectId) {
+    updateLocation(newLocation: $newLocation)
   }
 }
 mutation deleteProject($projectId: ID!) {

@@ -4,6 +4,7 @@ query getMe {
     username
     name
     id
+    description
     createdProjects {
       name
       description
@@ -103,4 +104,8 @@ query getChatWithProjectId($projectId: ID!, $until: Time, $count: Int!) {
 
 mutation setMyUsername($username: String!) {
   setMyUsername(username: $username)
+}
+
+mutation setMyDescription($description: String!) {
+  setMyDescription(description: $description)
 }

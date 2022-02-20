@@ -35,6 +35,7 @@ function HomePage() {
         description: p.description,
         id: p.id,
         name: p.name,
+        location:p.location?.name,
         lastUpdated: Math.round((new Date().getTime() - new Date(p.createdAt).getTime()) / (1000 * 3600 * 24)).toString() + " days"
     })) || []
     return (

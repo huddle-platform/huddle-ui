@@ -21,6 +21,28 @@ const Input: React.FC<InputProps> = (props) => {
     if (props.initialValue && value === undefined) {
         setValue(props.initialValue);
     }
+    if (props.multiline) {
+        return <textarea
+            value={value} placeholder={props.description}
+            className="huddle-input-multiline"
+            onChange={e => {
+                const value = e.target.value
+                if (props.valueRef) {
+                    props.valueRef.value = value
+                }
+                props.onChange?.(value)
+                setValue(value)
+            }
+            }
+            onBlur={e => {
+                props.onEnter?.(e.currentTarget.value)
+                if (props.clearOnEnter) {
+                    setValue("")
+                }
+            }
+            }
+        />
+    }
     return (<input style={props.style} className="huddle-input" placeholder={props.description} type={props.type} value={value}
         onChange={e => {
             const value = e.target.value

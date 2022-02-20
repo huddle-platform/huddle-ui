@@ -3,7 +3,7 @@ import loadable from '@loadable/component';
 const MDEditor = loadable(() => import('@uiw/react-md-editor'))
 import { useState } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
-import { useAddImageMutation, useAddProjectTagMutation, useDeleteProjectMutation, useGetProjectByIdQuery, useRemoveImageMutation, useRemoveProjectTagMutation, useUpdateImageDescriptionMutation, useUpdateProjectDescriptionMutation, useUpdateProjectNameMutation } from "../schemas"
+import { useAddImageMutation, useAddProjectTagMutation, useDeleteProjectMutation, useGetProjectByIdQuery, useRemoveImageMutation, useRemoveProjectTagMutation, useUpdateImageDescriptionMutation, useUpdateProjectDescriptionMutation, useUpdateProjectLocationMutation, useUpdateProjectNameMutation } from "../schemas"
 import Button from "../shared/Button"
 import Input from "../shared/Input"
 import "./projectEditor.css"
@@ -25,6 +25,7 @@ export const ProjectEditor: React.FC = props => {
     const [addTag] = useAddProjectTagMutation();
     const [removeImage] = useRemoveImageMutation()
     const [updateImageDescription] = useUpdateImageDescriptionMutation()
+    const [updateLocation] = useUpdateProjectLocationMutation()
     const [addImage] = useAddImageMutation()
     const [updateProjectName] = useUpdateProjectNameMutation()
     const [updateProjectDescription] = useUpdateProjectDescriptionMutation()
@@ -82,6 +83,20 @@ export const ProjectEditor: React.FC = props => {
                 }}>Save</Button>
 
             </div>}
+
+            <p className="project-editor-component">Location: {projectData.data.getProject.location?.name} <Input description="Update Project Location" initialValue={projectData.data?.getProject?.location?.name} onEnter={(newLocation) => {
+                updateLocation({ variables: { newLocation: { name: newLocation }, projectId: projectId } })
+                    .then((res) => {
+                        if (res.data?.projectMutation?.updateLocation) {
+                            alert("Successfully updated project location!")
+                        } else {
+                            alert(res.errors?.join(""))
+                        }
+                        projectData.refetch()
+                    }).catch((r) => {
+                        alert("Could not update location")
+                    })
+            }} /></p>
             <div className="project-editor-component">
                 <h2>Tags</h2>
                 <TagSelector tags={projectData.data.getProject.tags} onNewTag={(newTag) => {
@@ -148,7 +163,7 @@ export const ProjectEditor: React.FC = props => {
                     })}
                 </div>
             </div>}
-            <p className="project-editor-component">
+            <div className="project-editor-component">
                 <h2>Add new image</h2>
                 <Input description="Image URL" clearOnEnter onChange={(newVal) => {
                     setNewImageURL(newVal)
@@ -170,7 +185,7 @@ export const ProjectEditor: React.FC = props => {
                             alert("Could not add image")
                         })
                 }} >Add Image</Button>}
-            </p>
+            </div>
 
             <p style={{ textAlign: "center" }}><Button onClick={() => {
                 deleteProject({ variables: { projectId: projectId } })
