@@ -10,11 +10,9 @@ export type ProjectListProps = {
     onScrollToBottom?: () => void
 }
 const ProjectList: React.FC<ProjectListProps> = (props) => {
-    //const [detailID, setDetailID] = useState("");
     const config = useConfig()
     const lastScrollTop = useRef(0)
     const scrollRef = useRef<HTMLDivElement>(null)
-    const location = useLocation()
     const [params, setParams] = useSearchParams();
     const detailID = params.get("detail") || ""
     const setDetailID = (id: string) => {

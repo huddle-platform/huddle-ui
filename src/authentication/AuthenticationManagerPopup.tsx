@@ -110,11 +110,12 @@ export const AuthenticationManagerPopup: React.FC<{ a: Observable<Authentication
                         console.log(registrationResponse.data);
                         authRequests.forEach(r => r.onFinished())
                         setAuthRequests([])
+                        client.refetchQueries({ include: "all" })
                     } catch (error) {
                         alertUnknownError(error)
                     }
                 }}>login</Button>
-                <p>By registering, you consent to the <Link target="_blank"  to="/about">data we collect and our terms of use</Link>. </p>
+                <p>By registering, you consent to the <Link target="_blank" to="/about">data we collect and our terms of use</Link>. </p>
                 <Button onClick={async () => {
                     try {
                         console.log('trying to recover account');

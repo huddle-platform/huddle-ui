@@ -87,6 +87,7 @@ h1.home-header2 {
   font-weight: 600;
   padding-bottom: 1.2vh;
   transition: all 100ms ease-out 50ms;
+  cursor: pointer;
 }
 
 .home-header-category-button:hover {
@@ -103,6 +104,7 @@ h1.home-header2 {
   color: #0066ff;
   border-bottom: 4px solid #0066ff;
   padding-bottom: 1.2vh;
+  cursor: pointer;
 }
 
 .home-header-category-list {
