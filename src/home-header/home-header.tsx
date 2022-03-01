@@ -24,18 +24,18 @@ type CategoryListProps = {
 const CategoryList: React.FC<CategoryListProps> = (props) => {
     const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0)
     const tagsData = useAvailableTagsQuery()
-    const categoriesWithAll = tagsData.data ? ["All", ...tagsData.data.availableTags.map(t => capitalizeFirstLetter(t.name))] : ["All"]
+    const categoriesWithAll = tagsData.data ? ["All", ...tagsData.data.availableTags.map(t => t.name)] : ["All"]
     return (
         <div className="home-header-category-list" style={{
             left: props.left,
             width: `calc(100vw - ${props.left + 10}px)`
         }}>
-            {categoriesWithAll.map((c, i) => (<CategoryButton category={c} onClick={() => {
+            {categoriesWithAll.map((c, i) => (<CategoryButton category={capitalizeFirstLetter(c)} onClick={() => {
                 setSelectedCategoryIndex(i)
                 if (c == "All") {
                     props.onCategoryChange?.(undefined)
                 } else {
-                    props.onCategoryChange?.(c.toLowerCase())
+                    props.onCategoryChange?.(c)
                 }
             }} activated={i == selectedCategoryIndex} />))}
         </div>
@@ -46,17 +46,11 @@ type HeaderProps = {
     onSearchStringChange?: (newSearch: string) => void
 }
 const HomeHeaderDesktop: React.FC<HeaderProps> = (props) => {
-    const targetRef = useRef();
-    const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-    const [initVal, setInitVal] = useState(0);
-    const [height, setHeight] = useState({});
-    const [scrollPosition, setScrollPosition] = useState(0);
     const [scrollPercentage, setScrollPercentage] = useState(0)
 
     const handleScroll = () => {
         const position = window.pageYOffset;
         setScrollPercentage(window.scrollY / (document.body.scrollHeight - window.innerHeight));
-        setScrollPosition(position);
     };
 
     useEffect(() => {
