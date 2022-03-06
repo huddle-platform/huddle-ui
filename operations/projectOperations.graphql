@@ -24,6 +24,15 @@ query getProjectById($id: ID!) {
     tags
   }
 }
+query getProjectUpdatesById($id: ID!) {
+  getProject(id: $id) {
+    updates(count: 20) {
+      content
+      images
+      time
+    }
+  }
+}
 query getSavedProjects {
   savedProjects {
     id

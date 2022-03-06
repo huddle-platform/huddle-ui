@@ -1,0 +1,15 @@
+img.gallery-image {
+  max-height: 30vh;
+  margin-bottom: 50px;
+}
+.swiper-slide{
+    width:auto
+}
+.image-caption{
+    text-align: center;
+    width: 100%;
+    overflow: hidden;
+    position: absolute;
+    z-index: 30;
+    bottom: 0px;
+}

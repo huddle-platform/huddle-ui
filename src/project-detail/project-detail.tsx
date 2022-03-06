@@ -1,20 +1,21 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useGetMeWithoutLoginPromptQuery, useGetProjectByIdQuery, useSaveProjectMutation, useUnsaveProjectMutation, useWriteMessageToProjectIdMutation } from '../schemas';
-import ImageGallery from "react-image-gallery"
+import { useGetMeWithoutLoginPromptQuery, useGetProjectByIdQuery, useGetProjectUpdatesByIdQuery, useSaveProjectMutation, useUnsaveProjectMutation, useWriteMessageToProjectIdMutation } from '../schemas';
+import { ImageGallery } from '../shared/ImageGallery';
 import './project-detail.css'
-import "react-image-gallery/styles/css/image-gallery.css";
 import useConfig from '../config';
 import Button from '../shared/Button';
 import ReactMarkdown from 'react-markdown';
 import TagsComponent from '../shared/TagsComponent/TagsComponent';
 import { BookmarkAdd, BookmarkAdded } from '@mui/icons-material';
 import { grey } from '@mui/material/colors';
+import { UpdateList } from './UpdateList';
 export type ProjectDetailProps = {
     id: string
     onBackClicked?: () => void
 }
 const ProjectDetail: React.FC<ProjectDetailProps> = (props) => {
     const projectResult = useGetProjectByIdQuery({ variables: { id: props.id } });
+    const projectUpdateResult = useGetProjectUpdatesByIdQuery({ variables: { id: props.id } });
     const meResult = useGetMeWithoutLoginPromptQuery();
     const navigate = useNavigate();
     const [saveProject] = useSaveProjectMutation()
@@ -34,9 +35,8 @@ const ProjectDetail: React.FC<ProjectDetailProps> = (props) => {
             <TagsComponent tags={projectResult.data?.getProject?.tags || ["...still loading tags"]} />
             <ReactMarkdown >{projectResult.data?.getProject?.description || "(no description provided)"}</ReactMarkdown>
             {images && images.length > 0 ? <div >
-                <ImageGallery items={images.map(image => ({
-                    original: image.url,
-                    thumbnail: image.url,
+                <ImageGallery images={images.map(image => ({
+                    url: image.url,
                     description: image.description || undefined
                 }))} />
             </div> : null}
@@ -49,19 +49,24 @@ const ProjectDetail: React.FC<ProjectDetailProps> = (props) => {
                     }
                 })
             }}>Connect</Button>
-            {projectResult.data?.getProject?.saved ? <BookmarkAdded style={{cursor:"pointer"}} fontSize="large" sx={{ color: grey[900] }} onClick={async () => {
+            {projectResult.data?.getProject?.saved ? <BookmarkAdded style={{ cursor: "pointer" }} fontSize="large" sx={{ color: grey[900] }} onClick={async () => {
                 await unsaveProject({ variables: { projectId: props.id } })
                 projectResult.refetch()
                 projectResult.client.refetchQueries({
-                    include:["getSavedProjects"]
+                    include: ["getSavedProjects"]
                 })
-            }} /> : <BookmarkAdd style={{cursor:"pointer"}} fontSize="large" sx={{ color: grey[900] }} onClick={async () => {
+            }} /> : <BookmarkAdd style={{ cursor: "pointer" }} fontSize="large" sx={{ color: grey[900] }} onClick={async () => {
                 await saveProject({ variables: { projectId: props.id } })
                 projectResult.refetch()
                 projectResult.client.refetchQueries({
-                    include:["getSavedProjects"]
+                    include: ["getSavedProjects"]
                 })
             }} />}
+            {projectUpdateResult.data?.getProject?.updates[0] && <UpdateList updates={projectUpdateResult.data.getProject?.updates.map(update => ({
+                content: update.content,
+                timestamp: new Date(update.time),
+                images: update.images
+            }))} />}
         </div>
     );
 }
