@@ -13,3 +13,9 @@ img.gallery-image {
     z-index: 30;
     bottom: 0px;
 }
+.image-consent-banner{
+  position: relative;
+  padding: 20px;
+  background-color: rgb(245, 245, 229);
+  border-radius: 25px;
+}

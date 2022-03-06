@@ -51,6 +51,12 @@ const LoginLink = new ApolloLink((operation, forward) => {
     });
 });
 const typePolicies: StrictTypedTypePolicies={
+    Project:{
+        keyFields:["id"],
+        merge(existing, incoming) {
+            return { ...existing, ...incoming };
+        }
+    },
     Query:{
         fields:{
             searchProjects:offsetLimitPagination()

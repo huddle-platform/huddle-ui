@@ -1,5 +1,6 @@
 query getProjectById($id: ID!) {
   getProject(id: $id) {
+    id
     name
     description
     creator {
@@ -26,6 +27,7 @@ query getProjectById($id: ID!) {
 }
 query getProjectUpdatesById($id: ID!) {
   getProject(id: $id) {
+    id
     updates(count: 20) {
       content
       images
