@@ -1,6 +1,6 @@
 div.home-bottom {
   background-color: white;
-  height: 95vh;
+  height: calc(100vh - 75px);
 }
 
 img.home-logo-huddle-icon-mobile{

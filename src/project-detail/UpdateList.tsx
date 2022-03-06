@@ -16,7 +16,7 @@ export const UpdateList: React.FC<UpdateListProps> = props => {
                 <div className="update-container">
                     <p className="update-timestamp">{Math.round((new Date().getTime() - update.timestamp.getTime()) / (1000 * 3600 * 24)).toString()} days ago</p>
                     <p className="update-content">{update.content}</p>
-                    {update.images && <ImageGallery images={update.images.map(i => ({ url: i }))} />}
+                    {update.images && update.images.length > 0 && <ImageGallery images={update.images.map(i => ({ url: i }))} />}
                     <hr />
                 </div>
             ))}

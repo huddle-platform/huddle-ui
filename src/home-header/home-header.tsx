@@ -63,7 +63,6 @@ const HomeHeaderDesktop: React.FC<HeaderProps> = (props) => {
 
     const opac = Math.max(1.0 - scrollPercentage, 0.0)
     const rotLogo = scrollPercentage * 100;
-
     return (
         <div className="home-header">
             <img src={"/ui/huddle-logo.png"} className="home-logo-huddle-icon"
@@ -78,7 +77,7 @@ const HomeHeaderDesktop: React.FC<HeaderProps> = (props) => {
             </button>
 
             <SearchField onChange={props.onSearchStringChange} style={{
-                bottom: (15 * scrollPercentage + 300 * (1 - scrollPercentage)),
+                bottom: (15 * scrollPercentage + innerHeight * 0.1 * (1 - scrollPercentage)),
                 position: "absolute",
                 left: 180
             }} />

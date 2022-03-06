@@ -1,52 +1,69 @@
 .searchFieldContainer {
-    text-align: center;
-    z-index: 10;
+  text-align: center;
+  z-index: 10;
+  padding: 0;
+  height: 50px;
 }
 
 .searchField {
-
-    text-align: center;
-    border-radius: 25px;
-    background-color: white;
-    display:inline-block;
+  position: relative;
+  border-radius: 25px;
+  background-color: white;
+  display: inline-block;
+  height: 50px;
+  width: 300px;
 }
 
 .searchField input {
-    border-width:0px;
-    border:none;
-    padding: 10px 10px;
-    font-size: 18px;
-    width: 180px;
-    font-weight: 500;
-    border-radius: 20px;
-    background-color: white;
-    color: black;
+  border-width: 0px;
+  border: none;
+  font-size: 18px;
+  width: 180px;
+  margin: auto;
+  font-weight: 500;
+  background-color: white;
+  color: black;
+  position: absolute;
+  top:50%;
+  left: 70px;
+  transform: translateY(-50%);
 }
 
-.searchField textarea:focus, input:focus{
-    outline: none;
+.searchField textarea:focus,
+input:focus {
+  outline: none;
 }
 
-.searchField .searchIcon{
-    color: #797272;
-    vertical-align: middle;
-    margin: 0px 0px 3px 20px;
-    height: 3vh;
+.searchField .searchIcon {
+  color: #797272;
+  vertical-align: middle;
+  margin: auto;
+  margin-left: 20px;
+  height: 40px;
+  position: absolute;
+  top:50%;
+  transform: translateY(-50%);
+  left: 0px;
 }
 
 .searchField .arrowIcon {
-    color: #797272;
-    vertical-align: middle;
-    margin: 0px 20px 3px 0px;
-    height: 3vh;
+  color: #797272;
+  vertical-align: middle;
+  margin: auto;
+  height: 40px;
+
+  position: absolute;
+  top:50%;
+  transform: translateY(-50%);
+    right: 20px;
 }
 
 .searchField button {
-    outline: none;
-    background-color: transparent;
-    border: none;
+  outline: none;
+  background-color: transparent;
+  border: none;
 }
 
 .searchField button:hover {
-    cursor: pointer;
+  cursor: pointer;
 }

@@ -3,7 +3,7 @@ import loadable from '@loadable/component';
 const MDEditor = loadable(() => import('@uiw/react-md-editor'))
 import { useState } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
-import { useAddImageMutation, useAddProjectTagMutation, useDeleteProjectMutation, useGetProjectByIdQuery, useRemoveImageMutation, useRemoveProjectTagMutation, useUpdateImageDescriptionMutation, useUpdateProjectDescriptionMutation, useUpdateProjectLocationMutation, useUpdateProjectNameMutation } from "../schemas"
+import { useAddImageMutation, useAddProjectTagMutation, useDeleteProjectMutation, useGetProjectByIdQuery, useGetProjectTwitterDatasourceQuery, useRemoveImageMutation, useRemoveProjectTagMutation, useSetProjectTwitterDatasourceMutation, useUpdateImageDescriptionMutation, useUpdateProjectDescriptionMutation, useUpdateProjectLocationMutation, useUpdateProjectNameMutation } from "../schemas"
 import Button from "../shared/Button"
 import Input from "../shared/Input"
 import "./projectEditor.css"
@@ -16,6 +16,7 @@ export const ProjectEditor: React.FC = props => {
     const projectId = params["id"]
     const config = useConfig()
     const [description, setDescription] = useState<string | null>(localStorage.getItem("description#" + projectId))
+    const twitterAccount = useGetProjectTwitterDatasourceQuery({ variables: { projectId: projectId || "" } })
     const projectData = useGetProjectByIdQuery({
         variables: { id: projectId || "" }, onCompleted: (data) => {
             setDescription(data?.getProject?.description || "")
@@ -30,6 +31,7 @@ export const ProjectEditor: React.FC = props => {
     const [updateProjectName] = useUpdateProjectNameMutation()
     const [updateProjectDescription] = useUpdateProjectDescriptionMutation()
     const [deleteProject] = useDeleteProjectMutation()
+    const [updateTwitter] = useSetProjectTwitterDatasourceMutation();
     const navigate = useNavigate()
     const [newImageURL, setNewImageURL] = useState("")
     const [imageLoaded, setImageLoaded] = useState(false)
@@ -185,6 +187,17 @@ export const ProjectEditor: React.FC = props => {
                             alert("Could not add image")
                         })
                 }} >Add Image</Button>}
+            </div>
+            <div className="project-editor-component">
+                <h2>Link your twitter account for automatic updates</h2>
+                {twitterAccount.data?.getProject?.twitterUpdateSource && <p>Currently linked account: {twitterAccount.data.getProject.twitterUpdateSource}</p>}
+                <Input description="Twitter Username" clearOnEnter onEnter={(newVal) => {
+                    updateTwitter({ variables: { projectId: projectId, username: newVal == "" ? undefined : newVal } }).then(res => {
+                        if (res.data?.projectMutation?.setTwitterUpdateSource) {
+                            alert("Successfully linked twitter account!")
+                        }
+                    })
+                }} />
             </div>
 
             <p style={{ textAlign: "center" }}><Button onClick={() => {

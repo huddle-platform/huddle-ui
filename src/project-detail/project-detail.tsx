@@ -62,7 +62,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = (props) => {
                     include: ["getSavedProjects"]
                 })
             }} />}
-            {projectUpdateResult.data?.getProject?.updates[0] && <UpdateList updates={projectUpdateResult.data.getProject?.updates.map(update => ({
+            {projectUpdateResult.data?.getProject?.updates && projectUpdateResult.data.getProject.updates.length > 0 && <UpdateList updates={projectUpdateResult.data.getProject?.updates.map(update => ({
                 content: update.content,
                 timestamp: new Date(update.time),
                 images: update.images

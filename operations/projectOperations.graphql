@@ -157,3 +157,14 @@ mutation removeProjectTag($projectId: ID!, $tag: String!) {
     removeTag(tag: $tag)
   }
 }
+query getProjectTwitterDatasource($projectId: ID!) {
+  getProject(id: $projectId) {
+    id
+    twitterUpdateSource
+  }
+}
+mutation setProjectTwitterDatasource($projectId: ID!, $username: String) {
+  projectMutation(id: $projectId) {
+    setTwitterUpdateSource(username: $username)
+  }
+}

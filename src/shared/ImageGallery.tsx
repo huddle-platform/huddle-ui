@@ -36,10 +36,9 @@ export const ImageGallery: React.FC<ImageGalleryProps> = props => {
                 clickable: true,
             }}
             keyboard
-            mousewheel
 
-            modules={[Navigation, Pagination, Keyboard, Mousewheel]}>
-            {props.images.map((image, index) => (
+            modules={[Navigation, Pagination, Keyboard]}>
+            {props.images.map((image) => (
                 <SwiperSlide >
                     <img className="gallery-image" src={image.url} alt={image.description} />
                     {image.description && <p className="image-caption">{image.description}</p>}

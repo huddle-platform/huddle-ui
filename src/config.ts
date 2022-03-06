@@ -23,7 +23,7 @@ const peterConfig = {
     kratosUrl:'/.ory/kratos',
 }
 
-export const clientConfig=localConfig
+export const clientConfig=productionConfig
 
 const configPushStream=new PushStream<Config>()
 const updateConfig:()=>Config=()=>({
