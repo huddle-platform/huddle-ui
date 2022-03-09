@@ -9,6 +9,7 @@ import Input from "../shared/Input"
 import "./projectEditor.css"
 import useConfig from "../config";
 import TagSelector from '../shared/tagSelector/TagSelector';
+import rehypeSanitize from 'rehype-sanitize';
 
 
 export const ProjectEditor: React.FC = props => {
@@ -41,6 +42,7 @@ export const ProjectEditor: React.FC = props => {
     if (!projectData.data?.getProject) {
         return <Link to="/">Invalid Project ID! Go home</Link>
     }
+
     return (
         <div className="project-editor">
             <h1>Edit project "{projectData.data?.getProject?.name}"</h1>
@@ -57,11 +59,14 @@ export const ProjectEditor: React.FC = props => {
                         alert("Could not update name")
                     })
             }} /></p>
-            {description !== null && <div className="project-editor-component">
+            {(typeof description == "string") && <div className="project-editor-component">
                 <h2>Description</h2>
                 <MDEditor value={description} preview={config.view == "mobile" ? "edit" : undefined}
                     onChange={(newDescription) => {
                         setDescription(newDescription || null)
+                    }}
+                    previewOptions={{
+                        rehypePlugins: [[rehypeSanitize]]
                     }}
                 />
                 <Button onClick={() => {
